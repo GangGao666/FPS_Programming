@@ -49,7 +49,9 @@ def game1(screen,font,scene):
     player = Player(screen)
     player.level = scene -1
     back = Back(font)
-    bg_1 = pygame.image.load('images/bg1.png').convert()
+    bg_1 = pygame.image.load('./images/bg1.png')
+    bg_1 = pygame.transform.scale(bg_1, (1200, 800))
+    # bg_1 = pygame.image.load('images/bg1.png').convert()
 
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
@@ -99,7 +101,9 @@ def game2(screen,font,scene):
     blood = pygame.image.load('./life.jpeg')
     monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed,2)
     monsters.create()
-    bg_2 = pygame.image.load('images/bg2.png').convert()
+    bg_2 = pygame.image.load('./images/bg2.png')
+    bg_2 = pygame.transform.scale(bg_2, (1200, 800))
+    # bg_2 = pygame.image.load('images/bg2.png').convert()
 
     while True:
 
@@ -139,7 +143,9 @@ def game3(screen,font,scene):
     blood = pygame.image.load('./life.jpeg')
     monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed,2)
     monsters.create()
-    bg_3 = pygame.image.load('images/bg3.png').convert()
+    bg_3 = pygame.image.load('./images/bg3.png')
+    bg_3 = pygame.transform.scale(bg_3, (1200, 800))
+    # bg_3 = pygame.image.load('images/bg3.png').convert()
 
     while True:
 
