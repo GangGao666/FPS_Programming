@@ -71,7 +71,6 @@ def game1(screen,font):
                 player.check_keyup_events(event)
 
 
-        #screen.blit(pygame.image.load('./back.png'),(0,0))
         screen.blit(bg_1, (0, 0))
         screen.blit(pygame.image.load('./tp.png'), (500, 200))
         # todo 需添加失败或通关画面

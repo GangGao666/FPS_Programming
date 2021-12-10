@@ -5,7 +5,7 @@ import sys
 class Player():
     def __init__(self,screen):
         self.screen = screen
-        self.img_list = [pygame.image.load("./right.png"),pygame.image.load("./left.png")]
+        self.img_list = [pygame.image.load("./images/player_right.png"),pygame.image.load("./images/player_left.png")]
         self.dir = 0
         self.image = self.img_list[self.dir]
         self.life = 10
@@ -86,7 +86,7 @@ class Player():
             return True
         else:
             return False
-
+    # todo 位置写死了而且还不精确，到时候弄个碰撞条件
     def checkSuccess(self):
         if self.x>500 and self.y>150:
             return True
@@ -94,9 +94,9 @@ class Player():
     def attack(self):
         if self.att:
             if self.dir == 0:
-                self.image = pygame.image.load('./right_down.png')
+                self.image = pygame.image.load('./images/player_right_attack.png')
             else:
-                self.image = pygame.image.load('./left_down.png')
+                self.image = pygame.image.load('./images/player_left_attack.png')
 
     def collide(self,monsters):
         if self.att:

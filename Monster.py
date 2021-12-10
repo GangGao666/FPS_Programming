@@ -34,9 +34,9 @@ class Monsters:
                 if monster.type_ != "Boss":
                     if not monster.checkDead():
                         monster.move()
-                        self.screen.blit(monster.image.convert_alpha(), (monster.x, monster.y))
+                        screen.blit(monster.image.convert_alpha(), (monster.x, monster.y))
                     else:
-                        self.screen.blit(self.output, (monster.x+10, monster.y+15))
+                        screen.blit(self.output, (monster.x+10, monster.y+15))
                         player_rect = self.player.image.get_rect()
                         player_rect.left = self.player.x
                         player_rect.top = self.player.y
@@ -57,7 +57,7 @@ class Monsters:
 
 class Soldier():
     def __init__(self,location, speed, life, img_width, img_height,type_):
-        self.img_list = ['./right_down.png','./right_down.png']
+        self.img_list = ['images/monster_1_left.png','images/monster_1_right.png','images/monster_1_right.png','images/monster_1_left.png']
         self.location = location
         self.x = location[0]
         self.y = location[1]
@@ -66,7 +66,7 @@ class Soldier():
         self.img_width = img_width
         self.img_height = img_height
         self.dead = False
-        self.dir = random.choice([0,1])
+        self.dir = random.choice([0,1,2,3])
         self.image = pygame.image.load(self.img_list[self.dir])
         self.type_ = type_
         self.rect = pygame.Rect(self.x,self.y,70,70)
@@ -93,7 +93,7 @@ class Soldier():
                 self.y = self.y - self.speed
             else:
                 self.dir=random.choice([0,1,2])
-
+        self.image = pygame.image.load(self.img_list[self.dir])
     def checkDead(self):
         if self.life <= 0:
             self.dead = True
