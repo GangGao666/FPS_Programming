@@ -48,6 +48,8 @@ def game1(screen,font):
     # init player, back option and monsters
     player = Player(screen)
     back = Back(font)
+    bg_1 = pygame.image.load('images/bg1.png').convert()
+
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
     monsters = Monsters(screen,pygame.image.load('./life.jpeg'),player,speed, 5)
@@ -72,10 +74,11 @@ def game1(screen,font):
                     return 0
 
         #screen.blit(pygame.image.load('./back.png'),(0,0))
-        screen.fill((255,255,255))
+        screen.blit(bg_1, (0, 0))
         screen.blit(pygame.image.load('./tp.png'), (500, 200))
+        # todo 需添加失败或通关画面
         if player.checkDead():
-            return 6
+            return 0
         if player.checkSuccess():
             return 3
         life = pygame.transform.scale(blood, (blood.get_rect()[2]*player.life,blood.get_rect()[3]))
@@ -93,10 +96,11 @@ def game1(screen,font):
 def game2(screen,font):
     player = Player(screen)
     back = Back(font)
-    speed = 0.4
+    speed = 0.1
     blood = pygame.image.load('./life.jpeg')
     monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed,4)
     monsters.create()
+    bg_2 = pygame.image.load('images/bg2.png').convert()
 
     while True:
 
@@ -114,10 +118,10 @@ def game2(screen,font):
                     return 0
 
         #screen.blit(pygame.image.load('./back2.png'), (0, 0))
-        screen.fill((255,255,255))
+        screen.blit(bg_2, (0, 0))
         screen.blit(pygame.image.load('./tp.png'),(500,200))
         if player.checkDead():
-            return 6
+            return 0
         if player.checkSuccess():
             return 4
 
@@ -133,10 +137,11 @@ def game2(screen,font):
 def game3(screen,font):
     player = Player(screen)
     back = Back(font)
-    speed = 0.5
+    speed = 0.1
     blood = pygame.image.load('./life.jpeg')
     monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed,4)
     monsters.create()
+    bg_3 = pygame.image.load('images/bg3.png').convert()
 
     while True:
 
@@ -157,12 +162,12 @@ def game3(screen,font):
                     return 0
 
         #screen.blit(pygame.image.load('./back2.png'), (0, 0))
-        screen.fill((255,255,255))
+        screen.blit(bg_3, (0, 0))
         screen.blit(pygame.image.load('./tp.png'), (500, 200))
         if player.checkDead():
-            return 6
+            return 0
         if player.checkSuccess():
-            return 5
+            return 0
 
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))

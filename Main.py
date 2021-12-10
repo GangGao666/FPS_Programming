@@ -15,6 +15,9 @@ def main():
 
     pygame.key.set_repeat(10,20)
 
+    pygame.mixer.music.load('sound/piano1.mp3')  # 加载背景音乐
+    pygame.mixer.music.set_volume(100)  # 设置音量
+    pygame.mixer.music.play(-1, 0.0)
     # there are four scene, 0 = menu, 1 = first map, 2 = second map, 3 = help
     scene = 0
 
