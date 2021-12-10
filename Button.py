@@ -24,16 +24,16 @@ class Button():
 class Begin():
 
     def __init__(self, font):
-        self.x = 550
-        self.y = 85
-        self.image = font.render('Start', True, pygame.Color(37, 4, 4))
+        self.x = 600
+        self.y = 400
+        # self.image = font.render('Start', True, pygame.Color(37, 4, 4))
 
     def check_button(self):
         checkbutton = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
-        if x >= 500 and x <= 700 and y <= 115 and y >= 55:
-            if checkbutton[0]:
-                return True
+        print(x,y)
+        if x >= 470 and x <= 795 and y <= 400 and y >= 300:
+            return True
 
 
 # class End():
