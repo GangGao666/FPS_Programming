@@ -35,11 +35,11 @@ def main():
             if scene == 1:
                 scene = function.help(screen,font)
             if scene == 2:
-                scene = function.game1(screen,font)
+                scene = function.game1(screen,font,scene)
             if scene == 3:
-                scene = function.game2(screen,font)
+                scene = function.game2(screen,font,scene)
             if scene == 4:
-                scene = function.game3(screen,font)
+                scene = function.game3(screen,font,scene)
             if scene == 5:
                 scene = function.success(screen,font)
             if scene == 6:

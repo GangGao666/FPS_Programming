@@ -51,7 +51,6 @@ class Help():
         self.y = 245
 
     def check_button(self):
-        checkbutton = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
         if x >= 470 and x <= 795 and y <= 540 and y >= 435:
                 return True

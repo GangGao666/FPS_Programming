@@ -44,9 +44,10 @@ def menu(screen,font):
         pygame.display.update()
 
 
-def game1(screen,font):
+def game1(screen,font,scene):
     # init player, back option and monsters
     player = Player(screen)
+    player.level = scene -1
     back = Back(font)
     bg_1 = pygame.image.load('images/bg1.png').convert()
 
@@ -90,8 +91,9 @@ def game1(screen,font):
         pygame.display.update()
 
 
-def game2(screen,font):
+def game2(screen,font,scene):
     player = Player(screen)
+    player.level = scene - 1
     back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
@@ -122,15 +124,16 @@ def game2(screen,font):
 
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))
-        screen.blit(back.image, (back.x, back.y))
+        # screen.blit(back.image, (back.x, back.y))
         player.life -= 0.004
         player.show()
         monsters.update(screen)
 
         pygame.display.update()
 
-def game3(screen,font):
+def game3(screen,font,scene):
     player = Player(screen)
+    player.level = scene - 1
     back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
@@ -164,7 +167,7 @@ def game3(screen,font):
 
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))
-        screen.blit(back.image, (back.x, back.y))
+        # screen.blit(back.image, (back.x, back.y))
         player.life -= 0.004
         player.show()
         monsters.update(screen)
@@ -209,6 +212,9 @@ def help(screen, font):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if back.check_button():
+                    return 0
 
 
         screen.fill((255, 255, 255))
@@ -232,6 +238,9 @@ def about(screen, font):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if back.check_button():
+                    return 0
 
 
         screen.fill((255, 255, 255))

@@ -23,6 +23,7 @@ class Player():
         self.img_height = 600
         self.att = False
         self.rect = pygame.Rect(self.x,self.y,70,70)
+        self.level = 1
 
     def show(self):
         self.screen.blit(self.image,(self.x,self.y))
@@ -88,7 +89,9 @@ class Player():
             return False
     # todo 位置写死了而且还不精确，到时候弄个碰撞条件
     def checkSuccess(self):
+        self.level += 1
         if self.x>500 and self.y>150:
+
             return True
 
     def attack(self):
