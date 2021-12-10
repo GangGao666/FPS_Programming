@@ -31,7 +31,6 @@ class Begin():
     def check_button(self):
         checkbutton = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
-        print(x,y)
         if x >= 470 and x <= 795 and y <= 400 and y >= 300:
             return True
 
@@ -54,8 +53,7 @@ class Help():
     def check_button(self):
         checkbutton = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
-        if x >= 500 and x <= 700 and y <= 265 and y >= 215:
-            if checkbutton[0]:
+        if x >= 470 and x <= 795 and y <= 540 and y >= 435:
                 return True
 
 
@@ -67,7 +65,7 @@ class About():
     def check_button(self):
         check = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
-        if x >= 500 and x <= 700 and y <= 420 and y >= 365:
+        if x >= 470 and x <= 795 and y <= 700 and y >= 580:
             if check[0]:
                 return True
 
