@@ -153,9 +153,9 @@ class Player():
 
 class Tp():
     def __init__(self):
-        self.x=1100
-        self.y=520
-        self.image=pygame.image.load('tp.png')
+        self.x=1085
+        self.y=465
+        self.image=pygame.image.load('./images/tp.png')
         self.imagesizex=50
         self.imagesizey=25
     def checkxy(self):
