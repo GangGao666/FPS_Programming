@@ -5,6 +5,10 @@ from Button import Begin, Back, Help, About
 from Player import Player, Tp
 from Monster import Monsters
 
+tp_fx = pygame.mixer.Sound("sound/tpsound.mp3")
+tp_fx.set_volume(0.3)
+success_fx = pygame.mixer.Sound("sound/cheer.mp3")
+success_fx.set_volume(0.3)
 
 # menu scene
 def menu(screen, font):
@@ -163,6 +167,7 @@ def game3(screen, font, scene):
         if player.checkDead():
             return 6
         if nextlevel(player, tp):
+            success_fx.play()
             return 5
         # if player.checkSuccess():
         #     return 5
@@ -186,6 +191,7 @@ def nextlevel(A, B):
         return False
 
     if cross(listx, listx1) and cross(listy, listy1):
+        tp_fx.play()
         return True
     else:
         return False

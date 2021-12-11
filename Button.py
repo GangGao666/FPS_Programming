@@ -6,8 +6,14 @@ Created on Mon Dec  6 21:58:20 2021
 """
 import pygame
 
-class Button():
+pygame.init()
+click_fx = pygame.mixer.Sound("sound/click.wav")
+click_fx.set_volume(0.3)
 
+class Button():
+    pygame.init()
+    click_fx = pygame.mixer.Sound("sound/click.wav")
+    click_fx.set_volume(80)
     def __init__(self,x,y,image,font):
         self.x = x
         self.y = y
@@ -32,6 +38,7 @@ class Begin():
         checkbutton = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
         if x >= 470 and x <= 795 and y <= 400 and y >= 300:
+            click_fx.play()
             return True
 
 
@@ -53,7 +60,8 @@ class Help():
     def check_button(self):
         x, y = pygame.mouse.get_pos()
         if x >= 470 and x <= 795 and y <= 540 and y >= 435:
-                return True
+            click_fx.play()
+            return True
 
 
 class About():
@@ -66,6 +74,7 @@ class About():
         x, y = pygame.mouse.get_pos()
         if x >= 470 and x <= 795 and y <= 700 and y >= 580:
             if check[0]:
+                click_fx.play()
                 return True
 
 
@@ -80,4 +89,5 @@ class Back():
         x, y = pygame.mouse.get_pos()
         if x >= 900 and x <= 995 and y >= 35 and y <= 65:
             if check[0]:
+                click_fx.play()
                 return True

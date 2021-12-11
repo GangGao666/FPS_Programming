@@ -3,6 +3,13 @@ import sys
 
 
 class Player():
+    pygame.mixer.init()
+    walking_fx = pygame.mixer.Sound("sound/walking.mp3")
+    walking_fx.set_volume(1)
+    attack_fx = pygame.mixer.Sound("sound/attack.wav")
+    attack_fx.set_volume(0.5)
+
+
     def __init__(self,screen):
         self.screen = screen
         self.img_list = [pygame.image.load("./images/player_right.png"),pygame.image.load("./images/player_left.png")]
@@ -48,22 +55,27 @@ class Player():
         if event.key == pygame.K_w:
             self.move_up = True
             self.move()
+            self.walking_fx.play()
             self.collide(monsters)
         if event.key == pygame.K_d:
             self.move_right = True
             self.move()
+            self.walking_fx.play()
             self.collide(monsters)
         if event.key == pygame.K_a:
             self.move_left = True
             self.move()
+            self.walking_fx.play()
             self.collide(monsters)
         if event.key == pygame.K_s:
             self.move_down = True
             self.move()
+            self.walking_fx.play()
             self.collide(monsters)
         if event.key == pygame.K_j:
             self.att = True
             self.attack()
+            self.attack_fx.play()
             self.collide(monsters)
 
 
@@ -71,15 +83,20 @@ class Player():
         if event.key == pygame.K_j:
             self.image = self.img_list[self.dir]
             self.att = False
+            self.attack_fx.stop()
 
         if event.key == pygame.K_w:
             self.move_up = False
+            self.walking_fx.stop()
         if event.key == pygame.K_d:
             self.move_right = False
+            self.walking_fx.stop()
         if event.key == pygame.K_a:
             self.move_left = False
+            self.walking_fx.stop()
         if event.key == pygame.K_s:
             self.move_down = False
+            self.walking_fx.stop()
     def checkxy(self):
         x1=self.x
         x2=self.x+self.imagesizex
