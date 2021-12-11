@@ -87,7 +87,7 @@ class Back():
     def check_button(self):
         check = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
-        if x >= 900 and x <= 995 and y >= 35 and y <= 65:
+        if x >= 955 and x <= 1200 and y >= 35 and y <= 65:
             if check[0]:
                 click_fx.play()
                 return True

@@ -206,6 +206,9 @@ def success(screen, font):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if back.check_button():
+                    return 0
         screen.fill((255, 255, 255))
         about = pygame.image.load('./images/success.png')
         about = pygame.transform.scale(about, (1200, 800))
@@ -222,6 +225,9 @@ def fail(screen, font):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if back.check_button():
+                    return 0
         screen.fill((255, 255, 255))
         about = pygame.image.load('./images/fail.png')
         about = pygame.transform.scale(about, (1200, 800))
