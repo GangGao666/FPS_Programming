@@ -6,9 +6,7 @@ from Player import Player, Tp
 from Monster import Monsters
 
 tp_fx = pygame.mixer.Sound("sound/tpsound.mp3")
-tp_fx.set_volume(0.3)
-success_fx = pygame.mixer.Sound("sound/cheer.mp3")
-success_fx.set_volume(0.3)
+tp_fx.set_volume(0.5)
 
 # menu scene
 def menu(screen, font):
@@ -78,6 +76,7 @@ def game1(screen, font, scene):
         screen.blit(bg_1, (0, 0))
         screen.blit(tp.image, (tp.x, tp.y))
         if nextlevel(player, tp):
+            tp_fx.play()
             return 3
         if player.checkDead():
             return 6
@@ -122,6 +121,7 @@ def game2(screen, font, scene):
         if player.checkDead():
             return 6
         if nextlevel(player, tp):
+            tp_fx.play()
             return 4
         #        if player.checkSuccess():
         #            return 4
@@ -167,7 +167,7 @@ def game3(screen, font, scene):
         if player.checkDead():
             return 6
         if nextlevel(player, tp):
-            success_fx.play()
+
             return 5
         # if player.checkSuccess():
         #     return 5
@@ -191,7 +191,6 @@ def nextlevel(A, B):
         return False
 
     if cross(listx, listx1) and cross(listy, listy1):
-        tp_fx.play()
         return True
     else:
         return False

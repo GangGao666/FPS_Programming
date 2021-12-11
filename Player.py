@@ -5,7 +5,7 @@ import sys
 class Player():
     pygame.mixer.init()
     walking_fx = pygame.mixer.Sound("sound/walking.mp3")
-    walking_fx.set_volume(1)
+    walking_fx.set_volume(0.5)
     attack_fx = pygame.mixer.Sound("sound/attack.wav")
     attack_fx.set_volume(0.5)
 
