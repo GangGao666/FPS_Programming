@@ -1,8 +1,5 @@
 import pygame
 import sys
-from Button import Begin, Back, Help, About
-from Monster import Monsters
-from Player import Player
 import function
 
 def main():

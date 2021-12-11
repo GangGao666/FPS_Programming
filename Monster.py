@@ -17,7 +17,7 @@ class Monsters:
     def create_num(self):
         for i in range(self.num):
             for j in range(self.num):
-                self.soldier_position.append([random.randint(300, 600), random.randint(0, 600)])
+                self.soldier_position.append([random.randint(300, 1000), random.randint(400, 500)])
 
     def create(self):
         self.create_num()
@@ -70,26 +70,27 @@ class Soldier():
         self.type_ = type_
         self.rect = pygame.Rect(self.x, self.y, 70, 70)
         self.level = level
-
+        self.imagesizex=128
+        self.imagesizey=128
     # move left if dir = 0, move down if dir = 1, move right if dir =2, move up if dir = 3
     def move(self):
         if self.dir == 0:
-            if self.x - self.speed > 0:
+            if abs(self.x-self.speed-self.location[0])<100:
                 self.x = self.x - self.speed
             else:
                 self.dir = random.choice([1, 2, 3])
         elif self.dir == 1:
-            if self.y + self.speed + 70 < 250:
+            if abs(self.y+self.speed-self.location[1])<100:
                 self.y = self.y + self.speed
             else:
                 self.dir = random.choice([0, 2, 3])
         elif self.dir == 2:
-            if self.x + self.speed + 70 < 600:
+            if abs(self.x+self.speed-self.location[0])<100:
                 self.x = self.x + self.speed
             else:
                 self.dir = random.choice([0, 1, 3])
         else:
-            if self.y - self.speed > 0:
+            if abs(self.y - self.speed - self.location[1]) < 100:
                 self.y = self.y - self.speed
             else:
                 self.dir = random.choice([0, 1, 2])

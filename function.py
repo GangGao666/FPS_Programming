@@ -2,12 +2,12 @@
 import pygame
 import sys
 from Button import Begin, Back, Help, About
-from Player import Player
+from Player import Player, Tp
 from Monster import Monsters
 
-# menu scene
-def menu(screen,font):
 
+# menu scene
+def menu(screen, font):
     # begin, end, and help option in menu
     begin = Begin(font)
     help = Help(font)
@@ -44,18 +44,17 @@ def menu(screen,font):
         pygame.display.update()
 
 
-def game1(screen,font,scene):
+def game1(screen, font, scene):
     # init player, back option and monsters
     player = Player(screen)
-    player.level = scene -1
+    player.level = scene - 1
+    tp = Tp()
     back = Back(font)
-    bg_1 = pygame.image.load('./images/bg1.png')
+    bg_1 = pygame.image.load('images/bg1.png').convert()
     bg_1 = pygame.transform.scale(bg_1, (1200, 800))
-    # bg_1 = pygame.image.load('images/bg1.png').convert()
-
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
-    monsters = Monsters(screen,pygame.image.load('./life.jpeg'),player,speed,2)
+    monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed, 2)
     monsters.create()
 
     while True:
@@ -63,68 +62,70 @@ def game1(screen,font,scene):
         # Handle event
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
+                sys.exit()
             # when monsters are all killed, press f to go to next map
-            elif event.type == pygame.KEYDOWN and len(monsters.monsters)==0:
-                if event.key == pygame.K_f:
-                    return 2
+            #            elif event.type == pygame.KEYDOWN and len(monsters.monsters)==0:
+            #                if event.key == pygame.K_f:
+            #                    return 2
             elif event.type == pygame.KEYDOWN and not player.checkDead():
-                player.check_keydown_events(event,monsters)
+                player.check_keydown_events(event, monsters)
             elif event.type == pygame.KEYUP and not player.checkDead():
                 player.check_keyup_events(event)
 
-
         screen.blit(bg_1, (0, 0))
-        screen.blit(pygame.image.load('./tp.png'), (500, 200))
+        screen.blit(tp.image, (tp.x, tp.y))
         # todo 需添加失败或通关画面
+        if nextlevel(player, tp):
+            return 3
         if player.checkDead():
             return 0
-        if player.checkSuccess():
-            return 3
-        life = pygame.transform.scale(blood, (blood.get_rect()[2]*player.life,blood.get_rect()[3]))
-        screen.blit(life,(10,10))
+        #        if player.checkSuccess():
+        #            return 3
+        life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
+        screen.blit(life, (10, 10))
         # # screen.blit(back.image,(back.x,back.y))
         player.life -= 0.001
 
         player.show()
         monsters.update(screen)
 
-
         pygame.display.update()
 
 
-def game2(screen,font,scene):
+def game2(screen, font, scene):
     player = Player(screen)
     player.level = scene - 1
+    tp = Tp()
     back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
-    monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed,2)
+    monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed, 2)
     monsters.create()
-    bg_2 = pygame.image.load('./images/bg2.png')
+    bg_2 = pygame.image.load('images/bg2.png').convert()
     bg_2 = pygame.transform.scale(bg_2, (1200, 800))
-    # bg_2 = pygame.image.load('images/bg2.png').convert()
-
     while True:
 
         # Handle event
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
+                sys.exit()
             # when monsters are all killed, press f to go to next map
             elif event.type == pygame.KEYDOWN and not player.checkDead():
                 player.check_keydown_events(event, monsters)
             elif event.type == pygame.KEYUP and not player.checkDead():
                 player.check_keyup_events(event)
 
-
-        #screen.blit(pygame.image.load('./back2.png'), (0, 0))
+        # screen.blit(pygame.image.load('./back2.png'), (0, 0))
         screen.blit(bg_2, (0, 0))
-        screen.blit(pygame.image.load('./tp.png'),(500,200))
+        screen.blit(tp.image, (tp.x, tp.y))
         if player.checkDead():
             return 0
-        if player.checkSuccess():
+        if nextlevel(player, tp):
             return 4
+        #        if player.checkSuccess():
+        #            return 4
 
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))
@@ -135,41 +136,43 @@ def game2(screen,font,scene):
 
         pygame.display.update()
 
-def game3(screen,font,scene):
+
+def game3(screen, font, scene):
     player = Player(screen)
     player.level = scene - 1
+    tp = Tp()
     back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./life.jpeg')
-    monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed,2)
+    monsters = Monsters(screen, pygame.image.load('./life.jpeg'), player, speed, 2)
     monsters.create()
-    bg_3 = pygame.image.load('./images/bg3.png')
+    bg_3 = pygame.image.load('images/bg3.png').convert()
     bg_3 = pygame.transform.scale(bg_3, (1200, 800))
-    # bg_3 = pygame.image.load('images/bg3.png').convert()
-
     while True:
 
         # Handle event
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
+                sys.exit()
             # when monsters are all killed, press f to go to next map
-            elif event.type == pygame.KEYDOWN and len(monsters.monsters) == 0:
-                if event.key == pygame.K_f:
-                    return 4
+            #            elif event.type == pygame.KEYDOWN and len(monsters.monsters) == 0:
+            #                if event.key == pygame.K_f:
+            #                    return 4
             elif event.type == pygame.KEYDOWN and not player.checkDead():
                 player.check_keydown_events(event, monsters)
             elif event.type == pygame.KEYUP and not player.checkDead():
                 player.check_keyup_events(event)
 
-
-        #screen.blit(pygame.image.load('./back2.png'), (0, 0))
+        # screen.blit(pygame.image.load('./back2.png'), (0, 0))
         screen.blit(bg_3, (0, 0))
-        screen.blit(pygame.image.load('./tp.png'), (500, 200))
+        screen.blit(tp.image, (tp.x, tp.y))
         if player.checkDead():
             return 0
-        if player.checkSuccess():
+        if nextlevel(player, tp):
             return 0
+        #        if player.checkSuccess():
+        #            return 0
 
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))
@@ -180,35 +183,55 @@ def game3(screen,font,scene):
 
         pygame.display.update()
 
-def success(screen,font):
+
+def nextlevel(A, B):
+    listx, listy = A.checkxy()
+    listx1, listy1 = B.checkxy()
+
+    def cross(a, b):
+        for each in a:
+            if each in b:
+                return True
+        return False
+
+    if cross(listx, listx1) and cross(listy, listy1):
+        return True
+
+    else:
+        return False
+
+
+def success(screen, font):
     back = Back(font)
 
     while True:
         # Handle events.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
-
+                pygame.quit()
+                sys.exit()
 
         screen.fill((255, 255, 255))
         # # screen.blit(back.image,(back.x,back.y))
-        screen.blit(font.render('Congratulation!', True, pygame.Color(37, 4, 4)), (250,120))
+        screen.blit(font.render('Congratulation!', True, pygame.Color(37, 4, 4)), (250, 120))
         pygame.display.update()
 
-def fail(screen,font):
+
+def fail(screen, font):
     back = Back(font)
 
     while True:
         # Handle events.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
-
+                pygame.quit()
+                sys.exit()
 
         screen.fill((255, 255, 255))
         # screen.blit(back.image,(back.x,back.y))
-        screen.blit(font.render('Sorry, you failed!', True, pygame.Color(37, 4, 4)), (250,120))
+        screen.blit(font.render('Sorry, you failed!', True, pygame.Color(37, 4, 4)), (250, 120))
         pygame.display.update()
+
 
 def help(screen, font):
     back = Back(font)
@@ -217,11 +240,11 @@ def help(screen, font):
         # Handle events.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
                     return 0
-
 
         screen.fill((255, 255, 255))
         help = pygame.image.load('./images/help.png')
@@ -236,6 +259,7 @@ def help(screen, font):
         #                         pygame.Color(37, 4, 4)), (50, 150))
         pygame.display.update()
 
+
 def about(screen, font):
     back = Back(font)
 
@@ -243,11 +267,11 @@ def about(screen, font):
         # Handle events.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
                     return 0
-
 
         screen.fill((255, 255, 255))
         about = pygame.image.load('./images/about.png')
@@ -256,6 +280,5 @@ def about(screen, font):
         # screen.blit(back.image, (back.x, back.y))
         pygame.display.update()
 
-            
-        
-            
+
+

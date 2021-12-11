@@ -16,11 +16,11 @@ class Player():
         self.move_up = False
         self.move_down = False
         self.x = 50
-        self.y = 50
-        self.imagesizex = 70
-        self.imagesizey = 70
-        self.img_width = 600
-        self.img_height = 600
+        self.y = 600
+        self.imagesizex = 128
+        self.imagesizey = 128
+        self.img_width = 1200
+        self.img_height = 800
         self.att = False
         self.rect = pygame.Rect(self.x,self.y,70,70)
         self.level = 1
@@ -31,9 +31,9 @@ class Player():
 
     def move(self):
         if self.life > 0:
-            if self.move_up and (self.y - self.speed >= 0):
+            if self.move_up and (self.y - self.speed >= 300):
                 self.y = self.y - self.speed
-            if self.move_right and (self.x + self.speed <= self.img_width - self.imagesizex):
+            if self.move_right and (self.x + self.speed <= 1200 - self.imagesizex):
                 self.dir = 0
                 self.image = self.img_list[0]
                 self.x = self.x + self.speed
@@ -41,7 +41,7 @@ class Player():
                 self.dir = 1
                 self.image = self.img_list[1]
                 self.x = self.x - self.speed
-            if self.move_down and (self.y + self.speed <= self.img_height - self.imagesizey):
+            if self.move_down and (self.y + self.speed <= 700 - self.imagesizey):
                 self.y = self.y + self.speed
 
     def check_keydown_events(self, event,monsters):
@@ -80,6 +80,12 @@ class Player():
             self.move_left = False
         if event.key == pygame.K_s:
             self.move_down = False
+    def checkxy(self):
+        x1=self.x
+        x2=self.x+self.imagesizex
+        y1=self.y
+        y2=self.y+self.imagesizey
+        return(range(x1,x2),range(y1,y2))
 
     def checkDead(self):
         if self.life < 0:
@@ -143,3 +149,18 @@ class Player():
                 if monster_rect.colliderect(player_rect) and not monster.checkDead():
                     self.life = -1
                     print(monster_rect,player_rect)
+
+
+class Tp():
+    def __init__(self):
+        self.x=1100
+        self.y=520
+        self.image=pygame.image.load('tp.png')
+        self.imagesizex=50
+        self.imagesizey=25
+    def checkxy(self):
+        x1=self.x
+        x2=self.x+self.imagesizex
+        y1=self.y
+        y2=self.y+self.imagesizey
+        return(range(x1,x2),range(y1,y2))

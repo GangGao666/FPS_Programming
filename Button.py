@@ -16,7 +16,7 @@ class Button():
     def check_button(self):
         check = pygame.mouse.get_pressed()
         click_x, click_y = pygame.mouse.get_pos()
-        if click_x >= self.x and click_x <= self.x+100 and click_y <= self.y+100 and y >= self.y:
+        if click_x >= self.x and click_x <= self.x+100 and click_y <= self.y+100 and click_y >= self.y:
             if check[0]:
                 return True
 
