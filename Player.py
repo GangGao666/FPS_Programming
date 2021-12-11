@@ -156,8 +156,8 @@ class Tp():
         self.x=1085
         self.y=465
         self.image=pygame.image.load('./images/tp.png')
-        self.imagesizex=50
-        self.imagesizey=25
+        self.imagesizex=1
+        self.imagesizey=1
     def checkxy(self):
         x1=self.x
         x2=self.x+self.imagesizex
