@@ -10,11 +10,13 @@ pygame.init()
 click_fx = pygame.mixer.Sound("sound/click.wav")
 click_fx.set_volume(0.3)
 
+
 class Button():
     pygame.init()
     click_fx = pygame.mixer.Sound("sound/click.wav")
     click_fx.set_volume(80)
-    def __init__(self,x,y,image,font):
+
+    def __init__(self, x, y, image, font):
         self.x = x
         self.y = y
         self.image = image
@@ -22,7 +24,7 @@ class Button():
     def check_button(self):
         check = pygame.mouse.get_pressed()
         click_x, click_y = pygame.mouse.get_pos()
-        if click_x >= self.x and click_x <= self.x+100 and click_y <= self.y+100 and click_y >= self.y:
+        if self.x <= click_x <= self.x + 100 and self.y + 100 >= click_y >= self.y:
             if check[0]:
                 return True
 
@@ -37,7 +39,37 @@ class Begin():
     def check_button(self):
         checkbutton = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()
-        if x >= 470 and x <= 795 and y <= 400 and y >= 300:
+        if 470 <= x <= 795 and 400 >= y >= 300:
+            click_fx.play()
+            return True
+
+
+class Parkour():
+
+    def __init__(self, font):
+        self.x = 600
+        self.y = 400
+        # self.image = font.render('Start', True, pygame.Color(37, 4, 4))
+
+    def check_button(self):
+        checkbutton = pygame.mouse.get_pressed()
+        x, y = pygame.mouse.get_pos()
+        if 320 <= x <= 920 and 350 >= y >= 240:
+            click_fx.play()
+            return True
+
+
+class Fight():
+
+    def __init__(self, font):
+        self.x = 600
+        self.y = 400
+        # self.image = font.render('Start', True, pygame.Color(37, 4, 4))
+
+    def check_button(self):
+        checkbutton = pygame.mouse.get_pressed()
+        x, y = pygame.mouse.get_pos()
+        if x >= 310 and x <= 930 and y <= 510 and y >= 400:
             click_fx.play()
             return True
 

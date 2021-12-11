@@ -1,6 +1,8 @@
 import pygame
 import sys
 import function
+import port
+
 
 def main():
     # init pygame and font
@@ -13,7 +15,7 @@ def main():
     # set font type and size
     font = pygame.font.SysFont("Arial", 42)
 
-    pygame.key.set_repeat(10,20)
+    # pygame.key.set_repeat(10, 20)
 
     pygame.mixer.music.load('sound/piano1.mp3')  # 加载背景音乐
     pygame.mixer.music.set_volume(0.5)  # 设置音量
@@ -21,7 +23,7 @@ def main():
     # there are four scene, 0 = menu, 1 = first map, 2 = second map, 3 = help
     scene = 0
 
-    screen = pygame.display.set_mode((1200,800))
+    screen = pygame.display.set_mode((1200, 800))
 
     while True:
         # clock.tick(fps)
@@ -32,22 +34,38 @@ def main():
 
             # we import function class, the function in function class will return scene
             if scene == 0:
-                scene = function.menu(screen,font)
+                scene = function.menu(screen, font)
             if scene == 1:
-                scene = function.help(screen,font)
+                scene = function.help(screen, font)
             if scene == 2:
-                scene = function.game1(screen,font,scene)
+                pygame.key.set_repeat(10, 20)
+                scene = function.game1(screen, font, scene)
             if scene == 3:
-                scene = function.game2(screen,font,scene)
+                pygame.key.set_repeat(10, 20)
+                scene = function.game2(screen, font, scene)
             if scene == 4:
-                scene = function.game3(screen,font,scene)
+                pygame.key.set_repeat(10, 20)
+                scene = function.game3(screen, font, scene)
             if scene == 5:
-                scene = function.success(screen,font)
+                scene = function.success(screen, font)
             if scene == 6:
-                scene = function.fail(screen,font)
+                scene = function.fail(screen, font)
             if scene == 7:
                 scene = function.about(screen, font)
+            if scene == 8:
+                scene = scene - 7
+                scene = port.game1(scene)
+            if scene == 9:
+                scene = scene - 7
+                scene = port.game2(scene)
+            if scene == 10:
+                scene = scene - 7
+                scene = port.game3(scene)
+            if scene == 11:
+                scene = function.mode(screen,font)
+
 
         pygame.display.flip()
+
 
 main()

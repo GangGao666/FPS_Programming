@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pygame
 import sys
-from Button import Begin, Back, Help, About
+from Button import Begin, Back, Help, About, Parkour, Fight
 from Player import Player, Tp
 from Monster import Monsters
 
@@ -25,7 +25,7 @@ def menu(screen, font):
             # if user click one of option, it will direct the user to the corresponding scene
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if begin.check_button():
-                    return 2
+                    return 11
                 if help.check_button():
                     return 1
                 if about.check_button():
@@ -54,7 +54,7 @@ def game1(screen, font, scene):
     bg_1 = pygame.transform.scale(bg_1, (1200, 800))
     speed = 0.1
     blood = pygame.image.load('./images/life.png')
-    monsters = Monsters(screen, pygame.image.load('./images/life.png'), player, speed, 2)
+    monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 2)
     monsters.create()
 
     while True:
@@ -98,7 +98,7 @@ def game2(screen, font, scene):
     back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./images/life.png')
-    monsters = Monsters(screen, pygame.image.load('./images/life.png'), player, speed, 2)
+    monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 2)
     monsters.create()
     bg_2 = pygame.image.load('images/bg2.png').convert()
     bg_2 = pygame.transform.scale(bg_2, (1200, 800))
@@ -141,7 +141,7 @@ def game3(screen, font, scene):
     back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./images/life.png')
-    monsters = Monsters(screen, pygame.image.load('./images/life.png'), player, speed, 2)
+    monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 2)
     monsters.create()
     bg_3 = pygame.image.load('images/bg3.png').convert()
     bg_3 = pygame.transform.scale(bg_3, (1200, 800))
@@ -279,3 +279,30 @@ def about(screen, font):
         # screen.blit(back.image, (back.x, back.y))
         pygame.display.update()
 
+
+def mode(screen,font):
+    parkour = Parkour(font)
+    fight = Fight(font)
+
+    while True:
+
+        # Handle events.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            # if user click one of option, it will direct the user to the corresponding scene
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if parkour.check_button():
+                    return 2
+                if fight.check_button():
+                    return 8
+
+                # if end.check_button():
+                #     pygame.quit()
+                #     sys.exit()
+        # draw the menu
+        maininterface = pygame.image.load('./images/mode.png')
+        maininterface = pygame.transform.scale(maininterface, (1200, 800))
+        screen.blit(maininterface, (0, 0))
+        pygame.display.update()
