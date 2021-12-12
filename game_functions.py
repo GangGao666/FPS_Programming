@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : game_functions.py
-# @Description : 整合了“战斗模式”的函数
+# @Description : Integrated "battle mode" function
 import sys
 import random
 import pygame
@@ -10,7 +10,10 @@ from demon import Demon
 from gift import Gift
 import numpy as np
 
-'''检查怪物群中的每个怪物是否触及到屏幕边缘，如果是则改变运动方向'''
+'''
+Check whether each monster in the monster group touches the edge of the screen, 
+if so, change the direction of movement
+'''
 
 
 def check_fleet_edges(game_setting, demons):
@@ -19,7 +22,12 @@ def check_fleet_edges(game_setting, demons):
             demon.change_direction()
 
 
-'''更新并追踪主角生存状态，主角的生命值在不断自动下降，当主角的生命值小于等于0时，判定主角死亡'''
+'''
+Update and track the hero’s survival status. 
+The hero’s health is continuously falling. 
+When the hero’s health is less than or equal to 0, 
+the hero is judged to be dead
+'''
 
 
 def update_hero(game_setting, hero):
@@ -29,7 +37,10 @@ def update_hero(game_setting, hero):
         hero.dead = True
 
 
-'''检测每个怪物的状态：检查是否触及屏幕边缘'''
+'''
+Detect the status of each monster: 
+check whether it touches the edge of the screen
+'''
 
 
 def update_demons(game_setting, bullets, demons, gifts, hero):
@@ -54,7 +65,9 @@ def update_demons(game_setting, bullets, demons, gifts, hero):
             demon.image = pygame.image.load(demon.image_url)
 
 
-'''更新掉落道具的状态'''
+'''
+Update the status of dropped items
+'''
 
 
 def update_gifts(game_setting, gifts, hero, gift_sound):
@@ -77,7 +90,12 @@ def update_gifts(game_setting, gifts, hero, gift_sound):
         collisions.remove(gifts)
 
 
-'''更新子弹状态：更新子弹所处位置、检测子弹是否撞击，以及撞击后的对子弹的处理'''
+'''
+Update bullet status: 
+update the position of the bullet, 
+detect whether the bullet hits, and 
+handle the bullet after the hit
+'''
 
 
 def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision_sound, scene):
@@ -114,7 +132,9 @@ def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision
         create_fleet(game_setting, screen, demons, scene)
 
 
-'''创建子弹，将子弹加入Sprites的Group数组中'''
+'''
+Create a bullet, add the bullet to the Group array of Sprites
+'''
 
 
 def fire_bullet(game_setting, screen, hero, bullets):
@@ -126,7 +146,9 @@ def fire_bullet(game_setting, screen, hero, bullets):
         bullets.add(new_bullet)
 
 
-'''检测键盘敲击事件'''
+'''
+Detect keystroke events
+'''
 
 
 def check_keydown_events(event, game_setting, screen, hero, bullets, shot_sound, demons):
@@ -152,7 +174,9 @@ def check_keydown_events(event, game_setting, screen, hero, bullets, shot_sound,
         fire_bullet(game_setting, screen, hero, bullets)
 
 
-'''检查鼠标、键盘事件'''
+'''
+Check mouse and keyboard events
+'''
 
 
 def check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound, bg, scene):
@@ -166,7 +190,9 @@ def check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound,
             check_keyup_events(event, hero)
 
 
-'''更新屏幕内子弹、掉落的道具、主角位置'''
+'''
+Update bullets, dropped items, hero positions on the screen
+'''
 
 
 def update_screen(game_setting, screen, hero, bullets, demons, gifts):
@@ -176,7 +202,9 @@ def update_screen(game_setting, screen, hero, bullets, demons, gifts):
     demons.update()
 
 
-'''检查键盘弹起事件'''
+'''
+Check keyboard up event
+'''
 
 
 def check_keyup_events(event, hero):
@@ -190,7 +218,9 @@ def check_keyup_events(event, hero):
         hero.moving_down = False
 
 
-'''创建怪物群'''
+'''
+Create a monster group
+'''
 
 
 def create_fleet(game_setting, screen, demons, scene):
@@ -198,7 +228,9 @@ def create_fleet(game_setting, screen, demons, scene):
         create_demon(game_setting, screen, demons, demon_number, scene)
 
 
-'''创建单个怪物'''
+'''
+Create a single monster
+'''
 
 
 def create_demon(game_setting, screen, demons, demon_number, scene):
@@ -214,7 +246,9 @@ def create_demon(game_setting, screen, demons, demon_number, scene):
     demons.add(demon)
 
 
-'''检测boss状态，当主角的杀敌数达到一定数量时，boss出现'''
+'''
+Detect the boss status, when the hero kills a certain number of enemies, the boss appears
+'''
 
 
 def update_boss(hero, boss, demons):

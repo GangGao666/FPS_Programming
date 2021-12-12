@@ -9,17 +9,22 @@ from hero import Hero
 import game_functions as gf
 from pygame.sprite import Group
 
-'''游戏基本功能设置，例如添加背景声音、设计音效、获取道具音效、击中目标音效'''
+'''Basic game function settings, such as adding background sound, 
+    designing sound effects, acquiring prop sound effects, 
+        hitting target sound effects'''
 
 
 def pre_prepare(scene):
+    '''Importing setting parameters'''
     game_setting = Setting()
+    '''Importing sound effects and setting volume levels'''
     pygame.mixer.music.load('sound/piano1.mp3')
     pygame.mixer.music.set_volume(100)
     pygame.mixer.music.play(-1, 0.0)
     gift_sound = pygame.mixer.Sound('sound/gift4.mp3')
     shot_sound = pygame.mixer.Sound('sound/attack.mp3')
     collision_sound = pygame.mixer.Sound('sound/collision2.mp3')
+
     screen = pygame.display.set_mode((game_setting.screen_width, game_setting.screen_height))
     hero = Hero(screen, game_setting)
     hero.level = scene
@@ -37,7 +42,7 @@ def pre_prepare(scene):
     return game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss
 
 
-'''Fight模式第一关游戏入口'''
+'''Fight mode first level game entrance'''
 
 
 def game1(scene):
@@ -69,7 +74,7 @@ def game1(scene):
         pygame.display.flip()
 
 
-'''Fight模式第二关游戏入口'''
+'''Fight mode second level game entrance'''
 
 
 def game2(scene):
@@ -102,7 +107,7 @@ def game2(scene):
         pygame.display.flip()
 
 
-'''Fight模式第三关游戏入口'''
+'''Fight mode third level game entrance'''
 
 
 def game3(scene):

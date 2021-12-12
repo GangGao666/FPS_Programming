@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : hero.py
-# @Description 英雄类
+# @Description Heroes
 import pygame
 
 
 class Hero:
     def __init__(self, screen, game_setting):
         self.screen = screen
-        # 英雄等级
+        # Hero level
         self.level = 0
         self.image = pygame.image.load(game_setting.hero_image[self.level])
         self.rect = self.image.get_rect()
@@ -20,35 +20,36 @@ class Hero:
         self.moving_up = False
         self.moving_down = False
         self.hero_speed = game_setting.hero_speed
-        # 英雄移动方向 默认值为"up",可以为up/down/left/right
+        # Hero moving direction The default value is "up", can be updownleftright
         self.direction = "up"
-        # 英雄生命值
+        # Hero health
         self.live_volume = game_setting.hero_live_volume
-        # 英雄与怪物的碰撞半径
+        # Collision radius between hero and monster
         self.radius = 0.5
-        # 英雄是否处于无敌状态
+        # Whether the hero is invincible
         self.shield = False
-        # 英雄无敌状态的持续时长
+        # The duration of the hero's invincible state
         self.shield_time = game_setting.hero_shield_time
-        # 英雄的击杀数目
+        # Hero kills
         self.kill_number = 0
-        # 英雄是否击杀boss
+        # Whether the hero kills the boss
         self.finish = False
-        # 英雄是否拾取boss跌落的道具
+        # Whether the hero picks up the props dropped by the boss
         self.win = False
-        # 英雄是否死亡
+        # Whether the hero is dead
         self.dead = False
 
     '''
-    重写了Sprite的update函数，Sprite类中的Groups数组可以调用这个方法，
-    使得Groups数组中的每个对象执行此方法
-    将主角显示在屏幕上
+   Override the update function of Sprite, the Groups array in the Sprite class can call this method, 
+   so that each object in the Groups array executes this method and displays the hero on the screen
     '''
 
     def update(self):
         self.screen.blit(self.image, self.rect)
 
-    '''连续移动主角并确保其活动范围不超过屏幕'''
+    '''
+    Move the hero continuously and make sure its range of motion does not exceed the screen
+    '''
 
 
     def move(self):

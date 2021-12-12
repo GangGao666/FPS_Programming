@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec  6 21:58:20 2021
-
-@author: Cyc
-"""
 import pygame
 from setting import Setting
+
 pygame.init()
 click_fx = pygame.mixer.Sound("sound/click.wav")
 click_fx.set_volume(0.3)

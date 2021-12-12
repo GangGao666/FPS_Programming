@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pygame
 import sys
 from Button import Begin, Back, Help, About, Parkour, Fight

@@ -1,13 +1,12 @@
 import pygame
-import sys
 
 
 class Player():
-    pygame.mixer.init()
-    walking_fx = pygame.mixer.Sound("sound/walking.mp3")
-    walking_fx.set_volume(0.5)
-    attack_fx = pygame.mixer.Sound("sound/attack.wav")
-    attack_fx.set_volume(0.5)
+    pygame.mixer.init() #Initialize mixer function
+    walking_fx = pygame.mixer.Sound("sound/walking.mp3") #Introducing walking sound effects
+    walking_fx.set_volume(0.5) #Adjusting the sound volume
+    attack_fx = pygame.mixer.Sound("sound/attack.wav") #Imported attack sound effects
+    attack_fx.set_volume(0.5) #Adjusting the sound volume
 
 
     def __init__(self,screen):
@@ -55,27 +54,27 @@ class Player():
         if event.key == pygame.K_w:
             self.move_up = True
             self.move()
-            self.walking_fx.play()
+            self.walking_fx.play() #Play sound effects while walking
             self.collide(monsters)
         if event.key == pygame.K_d:
             self.move_right = True
             self.move()
-            self.walking_fx.play()
+            self.walking_fx.play() #Play sound effects while walking
             self.collide(monsters)
         if event.key == pygame.K_a:
             self.move_left = True
             self.move()
-            self.walking_fx.play()
+            self.walking_fx.play() #Play sound effects while walking
             self.collide(monsters)
         if event.key == pygame.K_s:
             self.move_down = True
             self.move()
-            self.walking_fx.play()
+            self.walking_fx.play() #Play sound effects while walking
             self.collide(monsters)
         if event.key == pygame.K_j:
             self.att = True
             self.attack()
-            self.attack_fx.play()
+            self.attack_fx.play() #Play sound effects during attacks
             self.collide(monsters)
 
 
@@ -83,7 +82,7 @@ class Player():
         if event.key == pygame.K_j:
             self.image = self.img_list[self.dir]
             self.att = False
-            self.attack_fx.stop()
+            self.attack_fx.stop() #End of playing sound effects
 
         if event.key == pygame.K_w:
             self.move_up = False

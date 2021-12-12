@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : gift.py
-# @Description 击杀怪物后掉落的道具类，继承了pygame中的Sprite类
+# @Description The item class dropped after killing the monster, inherited the Sprite class in pygame
 import pygame
 from pygame.sprite import Sprite
 import random
@@ -12,15 +12,15 @@ class Gift(Sprite):
         super(Gift, self).__init__()
         self.screen = screen
         self.screen_rect = screen.get_rect()
-        # 掉落道具的类型，随机生成
+        # The type of dropped items, randomly generated
         self.gift_type = random.choice(range(len(game_setting.gift_image)))
         self.image = pygame.image.load(game_setting.gift_image[self.gift_type])
         self.rect = self.image.get_rect()
 
     '''
-    重写了Sprite的update函数，Sprite类中的Groups数组可以调用这个方法，
-    使得Groups数组中的每个对象执行此方法
-    将道具显示在屏幕上
+    Override the update function of Sprite, 
+    the Groups array in the Sprite class can call this method, 
+    so that each object in the Groups array executes this method to display the props on the screen
     '''
 
     def update(self):

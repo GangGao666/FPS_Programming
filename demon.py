@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : demon.py
-# @Description 怪物类,继承了pygame中的Sprite类
+# @Description Monster class, inherited from the Sprite class in pygame
 import random
-
 import pygame
 from pygame.sprite import Sprite
 
@@ -12,33 +11,34 @@ class Demon(Sprite):
 
     def __init__(self, screen, game_setting):
         super(Demon, self).__init__()
-        # 初始化屏幕对象
+        # Initialize the screen object
         self.screen = screen
         self.screen_rect = self.screen.get_rect()
-        # 游戏参数设置
+        # Setting game parameters
         self.game_setting = game_setting
-        # 是否被截停
+        # Whether the monster is stopped
         self.stop = 0
-        # 左右行走方向，-1或1
+        # Monster random left and right walking direction, -1 or 1
         self.direction = random.choice([-1, 1]) * game_setting.demon_direction
-        # 左右行走方向，0或1,基于direction,为了体态图像展示而设计
+        # Determination of left and right direction of travel is based on the determination of 0 or 1 direction,
+        # designed for body image display
         self.dir = 0
-        # 图像路径
+        # Image parameter settings
         self.image_url = game_setting.demon_image[self.dir]
         self.image = pygame.image.load(self.image_url)
         self.rect = self.image.get_rect()
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
         self.x = float(self.rect.x)
-        # 怪物的类型，默认值为'monster'
+        # The type of the monster, the default value is 'monster'
         self.type_ = 'monster'
-        # 怪物的伤害力 默认值为1
+        # Monster's damage power Default value is 1
         self.power = 1
 
     '''
-    重写了Sprite的update函数，Sprite类中的Groups数组可以调用这个方法，
-    使得Groups数组中的每个对象执行此方法
-    如果怪物没有被截停，则正常运动,并将怪物显示在屏幕上
+    Override the update function of Sprite. 
+    The Groups array in the Sprite class can call this method to make each object in the Groups array execute this method. 
+    If the monster is not stopped, it will move normally and display the monster on the screen.
     '''
 
     def update(self):
@@ -50,7 +50,7 @@ class Demon(Sprite):
 
 
     '''
-    判断怪物是否到达了屏幕边界
+    Determine whether the monster has reached the boundary of the screen
     '''
 
     def check_edges(self):
@@ -64,15 +64,17 @@ class Demon(Sprite):
             return True
 
     '''
-    改变怪物水平运动方向并切换为相应的图像
+    Change the direction of the monster's horizontal movement and switch to the corresponding image
     '''
 
     def change_direction(self):
-        # 当触及右侧边界时，怪物垂直下降；当触及左侧边界时，怪物垂直上升
+        # When it touches the right boundary, the monster drops vertically; when it touches the left boundary,
+        # the monster rises vertically
         self.rect.y = self.rect.y + self.game_setting.demon_drop_speed * self.direction
-        # 同时改变水平移动方向
+        # Change the direction of horizontal movement at the same time
         self.direction = self.direction * -1
-        # 当水平移动方向改变时，切换怪物图像，direction为1时，dir为0，direction为-1时，dir为1
+        # When the horizontal movement direction changes, switch the monster image,
+        # when the direction is 1, dir is 0, and when the direction is -1, dir is 1
         if self.direction == 1:
             self.dir = 0
             self.image_url = self.image_url.replace("_left", "_right")

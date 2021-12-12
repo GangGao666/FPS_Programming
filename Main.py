@@ -11,9 +11,9 @@ def main():
     # set font type and size
     font = pygame.font.SysFont("Arial", 42)
 
-    pygame.mixer.music.load('sound/piano1.mp3')
-    pygame.mixer.music.set_volume(0.5)
-    pygame.mixer.music.play(-1, 0.0)
+    pygame.mixer.music.load('sound/piano1.mp3') #Load background music
+    pygame.mixer.music.set_volume(0.5) #Adjust the volume level of background music
+    pygame.mixer.music.play(-1, 0.0) #Play background music
     # there are four scene, 0 = menu, 1 = first map, 2 = second map, 3 = help
     #
     scene = 0
