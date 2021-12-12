@@ -40,6 +40,7 @@ def menu(screen):
 
         # Draw the menu
         main_interface = pygame.image.load('./images/bg0.png')
+        # transform the picture scale to match the screen
         main_interface = pygame.transform.scale(main_interface, (1200, 800))
         screen.blit(main_interface, (0, 0))
         pygame.display.update()
@@ -52,9 +53,11 @@ def game1(screen, scene):
     player.level = scene - 1
     tp = Tp()
     bg_1 = pygame.image.load('images/bg1.png').convert()
+    # transform the picture scale to match the screen
     bg_1 = pygame.transform.scale(bg_1, (1200, 800))
     speed = 0.1
     blood = pygame.image.load('./images/life.png')
+    # set an object for "Monsters"
     monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 3)
     monsters.create()
 
@@ -102,10 +105,13 @@ def game2(screen, scene):
     player.level = scene - 1
     tp = Tp()
     speed = 0.2
+    # set loaded images to a variable
     blood = pygame.image.load('./images/life.png')
+    # set an object for "Monsters"
     monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 3)
     monsters.create()
     bg_2 = pygame.image.load('images/bg2.png').convert()
+    # transform the picture scale to match the screen
     bg_2 = pygame.transform.scale(bg_2, (1200, 800))
 
     while True:
@@ -152,10 +158,13 @@ def game3(screen, scene):
     player.level = scene - 1
     tp = Tp()
     speed = 0.3
+    # set loaded images to a variable
     blood = pygame.image.load('./images/life.png')
+    # set an object for "Monsters"
     monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 3)
     monsters.create()
     bg_3 = pygame.image.load('images/bg3.png').convert()
+    # transform the picture scale to match the screen
     bg_3 = pygame.transform.scale(bg_3, (1200, 800))
 
     while True:
@@ -210,7 +219,7 @@ def nextlevel(A, B):
     else:
         return False
 
-# Success scene
+# a function to redirect screen to "SUCCESS" page
 def success(screen):
 
     # Initiate back option
@@ -230,8 +239,11 @@ def success(screen):
 
         # Draw success scene
         success = pygame.image.load('./images/success.png')
+        # transform the picture scale to match the screen
         success = pygame.transform.scale(success, (1200, 800))
+        # draw picture
         screen.blit(success, (0, 0))
+        # screen updates
         pygame.display.update()
 
 # Fail scene
@@ -254,11 +266,12 @@ def fail(screen):
 
         # Draw fail scene
         fail = pygame.image.load('./images/fail.png')
+        # transform the picture scale to match the screen
         fail = pygame.transform.scale(fail, (1200, 800))
         screen.blit(fail, (0, 0))
         pygame.display.update()
 
-# Help scene
+#a function to redirect screen to "HELP" page
 def help(screen):
 
     # Initiate back option
@@ -282,7 +295,7 @@ def help(screen):
         screen.blit(help, (0, 0))
         pygame.display.update()
 
-# About scene
+#a function to redirect screen to "ABOUT" page
 def about(screen):
 
     # Initiate back option
@@ -306,7 +319,7 @@ def about(screen):
         screen.blit(about, (0, 0))
         pygame.display.update()
 
-# Mode scene
+#a function to redirect screen to "MODE" page
 def mode(screen):
 
     # Initiate parkour and fight option
@@ -325,14 +338,18 @@ def mode(screen):
             # If user clicks one of option, it will direct the user to the corresponding scene
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if parkour.check_button():
+                    # enter mode1: parkour
                     return Scene.MODE1_GAME1.value
                 if fight.check_button():
+                    # enter mode2: fight
                     return Scene.MODE2_GAME1.value
                 if back.check_button():
+                    # return to home page
                     return Scene.MENU.value
 
         # Draw mode scene
         main_interface = pygame.image.load('./images/mode.png')
+        # transform the picture scale to match the screen
         main_interface = pygame.transform.scale(main_interface, (1200, 800))
         screen.blit(main_interface, (0, 0))
         pygame.display.update()

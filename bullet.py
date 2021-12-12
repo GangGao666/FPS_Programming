@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : bullet.py
-# @Description The bullet class, which inherits the Sprite class in pygame
+# @Description
+"""In this module, bullets are created, added and deleted
+    and collision monitoring with monsters are inspired by a python book called
+    "Python Crash Course - A Hands-On, Project-Based Introduction to Programming by Eric Matthes", which
+    is download from the link:
+    https://b-ok.cc/
+    Only ideas were learned from it, but no code was copied.
+
+    """
+
 import pygame
 from pygame.sprite import Sprite
 
@@ -20,13 +29,13 @@ class Bullet(Sprite):
         # Bullet position expressed as a decimal
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
-        # Bullet speed
+        # 子弹的速度
         self.speed = game_setting.bullet_speed
-        # The direction in which the bullet runs, the default value is up, which means upward
+        # 子弹运行的方向，默认值为up,表示向上
         self.direction = direction
 
 
-    '''DRAW THE BULLET TO THE SCREEN'''
+    '''将子弹绘制到屏幕上'''
     def update(self):
         if self.direction == "up":
             self.y = self.y - self.speed

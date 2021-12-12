@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 # @File : my_enum.py
 # @Description: Enum for Scenes
+"""In this module, the enum idea is inspired by a website, of which the link is:
+    https://docs.python.org/3/library/enum.html
+
+    """
+
 from enum import Enum
 class Scene(Enum):
     MENU = 0
