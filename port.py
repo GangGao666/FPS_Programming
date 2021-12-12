@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Description Fight Mode的入口
+# @Description Entrance to Fight Mode
 
 import pygame
 from demon import Demon
@@ -10,7 +10,8 @@ from hero import Hero
 import game_functions as gf
 from pygame.sprite import Group
 
-'''游戏基本功能设置，例如添加背景声音、设计音效、获取道具音效、击中目标音效'''
+'''Basic game function settings, such as adding background sounds, 
+designing sound effects, obtaining prop sound effects, and hitting target sound effects'''
 
 
 def pre_prepare(scene):
@@ -24,29 +25,29 @@ def pre_prepare(scene):
     shot_sound.set_volume(0.1)
     collision_sound = pygame.mixer.Sound('sound/collision2.mp3')
     screen = pygame.display.set_mode((game_setting.screen_width, game_setting.screen_height))
-    # 初始化英雄
+    # Initialize the hero
     hero = Hero(screen, game_setting)
-    # 设置英雄等级
+    # Set level the level of hero
     hero.level = scene
-    # 为不同等级的英雄设置不同外表
+    # Set different appearances for the hero of different levels
     hero.image = pygame.image.load(game_setting.hero_image[hero.level - 1])
     pygame.display.set_caption("The Defence Of Nottingham")
-    # 创建子弹的Group群组
+    # Create a group of bullets
     bullets = Group()
-    # 创建恶魔的Group群组
+    # Create a group of demons
     demons = Group()
-    # 创建恶魔群
+    # Create a fleet of demons
     gf.create_fleet(game_setting, screen, demons, scene)
-    # 创建道具的Group群组
+    # Create a group of items
     gifts = Group()
-    # 创建boss
+    # Create boss
     boss = Demon(screen, game_setting)
-    # 设置boss图像
+    # Set the image of the boss
     boss.image_url = 'images/boss' + str(scene) + '_right.png'
     boss.image = pygame.image.load(boss.image_url)
-    # 将恶魔类型设置为‘boss’
+    # Set the type of demon to 'boss'
     boss.type_ = "boss"
-    # 为不同关卡的boss设置不同的伤害力
+    # Set different damage powers for the boss of different levels
     boss.power = scene + 1
     return game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss,bg,scene
 
@@ -63,7 +64,7 @@ def game1(scene):
         # If the hero dies, jump to the failure page
         if hero.dead:
             return Scene.FAIL.value
-        # 如果英雄胜利，进入下一关
+        # If the hero wins, go to the next level
         if hero.win:
             return Scene.MODE2_GAME2.value
         pygame.display.flip()
@@ -120,7 +121,7 @@ def game_body(game_setting, gift_sound, shot_sound, collision_sound, screen, her
     gf.check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound, bg, scene)
     # Hero moves
     hero.move()
-    # 更新子弹状态
+    # Update bullet status
     gf.update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision_sound, scene)
     # Check the status of each demon
     gf.update_demons(game_setting, bullets, demons, gifts, hero)

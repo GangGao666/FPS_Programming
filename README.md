@@ -4,7 +4,11 @@
 
 Group: RelaxedFish
 
-How to run the game: run the "Main.py" file. 
+How to run the game: run the "**Main.py**" file. 
+
+```python
+python Main.py
+```
 
 Developed with: Python 3.8
 Libraries: pygame 2.0.0; sys; random;

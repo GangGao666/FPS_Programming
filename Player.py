@@ -143,14 +143,6 @@ class Player():
             player_rect[2] = 30
             player_rect[3] = 55
             for monster in monsters.monsters:
-                #if len(monsters.monsters) > 1:
-                #    if monster.type_ != 'Boss':
-                #        monster_rect = monster.image.get_rect()
-                #        monster_rect.left = monster.x
-                #        monster_rect.top = monster.y
-                #        if monster_rect.colliderect(player_rect) and not monster.checkDead():
-                #            monster.life -= 1
-                #else:
                 monster_rect = monster.image.get_rect()
                 monster_rect.left = monster.x+10
                 monster_rect.top = monster.y+10
@@ -167,7 +159,6 @@ class Tp():
         self.image=pygame.image.load('./images/tp.png')
         self.imagesizex=60
         self.imagesizey=125
-    #todo 进入下一关触及问题
     def checkxy(self):
         x1=self.x
         x2=self.x+self.imagesizex

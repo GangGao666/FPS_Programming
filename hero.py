@@ -1,57 +1,58 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : hero.py
-# @Description 英雄类
+# @Description the class of hero
 import pygame
 
 
 class Hero:
     def __init__(self, screen, game_setting):
         self.screen = screen
-        # 英雄等级
+        # the level of hero
         self.level = 0
         self.image = pygame.image.load(game_setting.hero_image[self.level])
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
-        # 将英雄初始位置设置为屏幕下方中部
+        # Set the initial position of the hero to the bottom middle of the screen
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
-        # 英雄是否持续向右移动
+        # Whether the hero keeps moving right
         self.moving_right = False
-        # 英雄是否持续向左移动
+        # Whether the hero keeps moving left
         self.moving_left = False
-        # 英雄是否持续向上移动
+        # Whether the hero keeps moving up
         self.moving_up = False
-        # 英雄是否持续向下移动
+        # Whether the hero keeps moving down
         self.moving_down = False
+        # the speed of hero
         self.hero_speed = game_setting.hero_speed
-        # 英雄移动方向 默认值为"up",可以为up/down/left/right
+        # The direction of the hero's movement ,the default value is "up", which can be up/down/left/right
         self.direction = "up"
-        # 英雄生命值
+        # Hero's HP
         self.live_volume = game_setting.hero_live_volume
-        # 英雄与恶魔的碰撞半径
+        # Collision radius between hero and demon
         self.radius = 0.5
-        # 英雄是否处于无敌状态
+        # Whether the hero is invincible
         self.shield = False
-        # 英雄无敌状态的持续时长
+        # The duration of the hero's invincible state
         self.shield_time = game_setting.hero_shield_time
-        # 英雄的击杀数目
+        # Hero kills
         self.kill_number = 0
-        # 英雄是否拾取boss跌落的道具
+        # Whether the hero picks up the props dropped by the boss
         self.win = False
-        # 英雄是否死亡
+        # Whether the hero is dead
         self.dead = False
 
     '''
-    重写了Sprite的update函数，Sprite类中的Groups数组可以调用这个方法，
-    使得Groups数组中的每个对象执行此方法
-    将英雄显示在屏幕上
+    Override the update function of Sprite, the Groups array in the Sprite class can call this method，
+    Make each object in the Groups array execute this method
+    Show the hero on the screen
     '''
 
     def update(self):
         self.screen.blit(self.image, self.rect)
 
-    '''连续移动英雄并确保其在屏幕范围内活动'''
+    '''Move the hero continuously and make sure it is active within the range of the screen'''
 
 
     def move(self):
