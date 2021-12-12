@@ -1,86 +1,90 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time : 2021/12/6 13:30
-# @Author : Seeumt
 # @File : game_functions.py
+# @Description : 整合了“战斗模式”的函数
 import sys
 import random
 import pygame
 from bullet import Bullet
-from alien import Alien
+from demon import Demon
 from gift import Gift
 import numpy as np
-from pygame.sprite import Group
-import time
+
+'''检查怪物群中的每个怪物是否触及到屏幕边缘，如果是则改变运动方向'''
 
 
-def change_alien_direction(game_setting, aliens):
-    for alien in aliens.sprites():
-        alien.rect.y = alien.rect.y + game_setting.alien_drop_speed
-    game_setting.alien_direction = game_setting.alien_direction * -1
+def check_fleet_edges(game_setting, demons):
+    for demon in demons.sprites():
+        if demon.check_edges():
+            demon.change_direction()
 
 
-def check_fleet_edges(game_setting, aliens):
-    for alien in aliens.sprites():
-        if alien.check_edges():
-            alien.change_direction()
-            break
+'''更新并追踪主角生存状态，主角的生命值在不断自动下降，当主角的生命值小于等于0时，判定主角死亡'''
 
 
-def update_ship(game_setting, ship, stats):
-    ship.live_volume = ship.live_volume - 0.01
-    if ship.live_volume <= 0:
-        dead_gameover(stats, ship, game_setting)
+def update_hero(game_setting, hero):
+    hero.live_volume = hero.live_volume - 0.01
+    if hero.live_volume <= 0:
+        hero.live_volume = 0
+        hero.dead = True
 
 
-# todo 主角会自己动，主要原因是下面这个for循环监听事件
-def update_aliens(game_setting, bullets, aliens, gifts, ship, stats):
-    check_fleet_edges(game_setting, aliens)
-    aliens.update()
-    coll = pygame.sprite.spritecollide(ship, aliens, False, pygame.sprite.collide_circle)
+'''检测每个怪物的状态：检查是否触及屏幕边缘'''
+
+
+def update_demons(game_setting, bullets, demons, gifts, hero):
+    check_fleet_edges(game_setting, demons)
+    # 更新怪物位置
+    demons.update()
+    # 判断是否撞击
+    coll = pygame.sprite.spritecollide(hero, demons, False, pygame.sprite.collide_circle)
     if coll:
-        alien = pygame.sprite.spritecollideany(ship, aliens)
-        alien.stop = 1
-        image_url = alien.image_url
+        demon = pygame.sprite.spritecollideany(hero, demons)
+        demon.stop = 1
+        image_url = demon.image_url
         image_url_attack = image_url.replace("/", "/attack_")
-        alien.image = pygame.image.load([image_url, image_url_attack][np.random.choice([0, 1])])
-        if not ship.wudi:
-            ship.live_volume = ship.live_volume - alien.power
-            ship.wudi = True
-            ship.wudi_time = game_setting.ship_wudi_time
+        demon.image = pygame.image.load([image_url, image_url_attack][np.random.choice([0, 1])])
+        if not hero.shield:
+            hero.live_volume = hero.live_volume - demon.power
+            hero.shield = True
+            hero.shield_time = game_setting.hero_shield_time
     else:
-        for alien in aliens.sprites():
-            alien.stop = 0
-            alien.image = pygame.image.load(alien.image_url)
+        for demon in demons.sprites():
+            demon.stop = 0
+            demon.image = pygame.image.load(demon.image_url)
 
 
-def update_gifts(game_setting, gifts, ship, gift_sound):
-    # todo 新函数 spritecollideany(ship,aliens)
-    if pygame.sprite.spritecollideany(ship, gifts):
-        ship.live_volume = game_setting.ship_live_volume
+'''更新掉落道具的状态'''
+
+
+def update_gifts(game_setting, gifts, hero, gift_sound):
+    if pygame.sprite.spritecollideany(hero, gifts):
+        hero.live_volume = game_setting.hero_live_volume
         gift_sound.play()
-
-        gift_type = pygame.sprite.spritecollideany(ship, gifts).gift_type
+        gift_type = pygame.sprite.spritecollideany(hero, gifts).gift_type
         if gift_type == 0:
-            ship.ship_speed += 0.1
+            hero.hero_speed += 0.1
         if gift_type == 1:
-            game_setting.alien_speed = game_setting.alien_speed - 0.1
+            game_setting.demon_speed = game_setting.demon_speed - 0.1
         if gift_type == 2:
             game_setting.bullet_speed += 0.1
             game_setting.bullet_allowed += 1
         if gift_type in [4, 5, 6]:
-            ship.win = True
-
-        game_setting.alien_speed = game_setting.alien_speed + 0.2
-        collisions = pygame.sprite.spritecollideany(ship, gifts)
+            hero.win = True
+        # 加快怪物移动速度
+        game_setting.demon_speed = game_setting.demon_speed + 0.1
+        collisions = pygame.sprite.spritecollideany(hero, gifts)
         collisions.remove(gifts)
 
 
-def update_bullets(game_setting, screen, ship, bullets, aliens, gifts, collision_sound, scene):
+'''更新子弹状态：更新子弹所处位置、检测子弹是否撞击，以及撞击后的对子弹的处理'''
+
+
+def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision_sound, scene):
     # todo 通过让Sprite的Group() 数组里的每个bullet对象调用update()方法，让子弹出现
-    # 装好子弹后，直接将Sprite的Group数组对象调用update()方法
+    # 装好子弹后，直接将Sprite的Group数组对象调用update()方法，更新子弹位置
     bullets.update()
-    # 删除消失的子弹
+    # 删除超出屏幕的子弹
     for bullet in bullets.copy():
         if bullet.rect.bottom <= bullet.screen_rect.top:
             bullets.remove(bullet)
@@ -90,153 +94,130 @@ def update_bullets(game_setting, screen, ship, bullets, aliens, gifts, collision
             bullets.remove(bullet)
         if bullet.rect.right <= bullet.screen_rect.left:
             bullets.remove(bullet)
-    # todo pygame.sprite.groupcollide 碰撞功能 除此之外，如何实现掉落
-
-    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    collisions = pygame.sprite.groupcollide(bullets, demons, True, True)
     if collisions:
-        ship.kill_number += 1
+        hero.kill_number += 1
         collision_sound.play()
+    # stack-overflow
     for bullet in collisions:  # each bullet
-        for alien in collisions[bullet]:  # each alien that collides with that bullet
-
+        for demon in collisions[bullet]:  # each demon that collides with that bullet
             gift = Gift(screen, game_setting)
-            gift.rect.x = alien.rect.x
-            gift.rect.y = alien.rect.y
-
-            if alien.type_ == 'boss':
-                aliens.empty()
-                ship.finish = True
-                gift.gift_type = scene + 3
+            gift.rect.x = demon.rect.x
+            gift.rect.y = demon.rect.y
+            if demon.type_ == 'boss':
+                demons.empty()
+                hero.finish = True
+                gift.gift_type = scene + len(game_setting.gift_image)
                 gift.image = pygame.image.load(game_setting.gift_boss_image[scene - 1])
-
             gifts.add(gift)
-    if len(aliens) == 1 and not ship.finish:
+    if len(demons) == 1 and not hero.finish:
         bullets.empty()
-        create_fleet(game_setting, screen, aliens, scene)
+        create_fleet(game_setting, screen, demons, scene)
 
 
-# 1.创建子弹，将子弹加入Sprites的Group数组中
-def fire_bullet(game_setting, screen, ship, bullets):
+'''创建子弹，将子弹加入Sprites的Group数组中'''
+
+
+def fire_bullet(game_setting, screen, hero, bullets):
     if len(bullets) < game_setting.bullet_allowed:
-        new_bullet = Bullet(game_setting, screen, ship)
-        new_bullet.direction = ship.direction
-        new_bullet.host = 'ship'
+        new_bullet = Bullet(game_setting, screen, hero)
+        new_bullet.direction = hero.direction
+        new_bullet.host = 'hero'
         bullets.add(new_bullet)
 
 
-def alien_attack(game_setting, screen, aliens, alien_bullets_1):
-    for alien in aliens.sprites():
-        new_bullet = Bullet(game_setting, screen, alien)
-        new_bullet.host = 'alien'
-        alien_bullets_1.add(new_bullet)
+'''检测键盘敲击事件'''
 
 
-
-def alien_fire_bullet(game_setting, screen, alien, alien_bullets):
-    new_bullet = Bullet(game_setting, screen, alien)
-    new_bullet.host = 'alien'
-    new_bullet.direction = alien.direction
-    alien_bullets.add(new_bullet)
-
-    return alien_bullets
-
-
-def check_keydown_events(event, game_setting, screen, ship, bullets, shot_sound, aliens, alien_bullets_1, stats):
+def check_keydown_events(event, game_setting, screen, hero, bullets, shot_sound, demons):
     if event.key == pygame.K_d:
-        # print("向右走")
-        ship.moving_right = True
-        ship.direction = "right"
-        # ship.image = pygame.image.load('images/player_right.png')
-        ship.image = pygame.image.load('images/' + ship.direction + str(ship.level) + '.png')
+        hero.moving_right = True
+        hero.direction = "right"
+        hero.image = pygame.image.load('images/' + hero.direction + str(hero.level) + '.png')
     if event.key == pygame.K_a:
-        # print("向左走")
-        ship.moving_left = True
-        ship.direction = "left"
-        # ship.image = pygame.image.load('images/player_left.png')
-        ship.image = pygame.image.load('images/' + ship.direction + str(ship.level) + '.png')
+        hero.moving_left = True
+        hero.direction = "left"
+        hero.image = pygame.image.load('images/' + hero.direction + str(hero.level) + '.png')
     if event.key == pygame.K_w:
-        # print("向上走")
-        ship.moving_up = True
-        ship.direction = "up"
-        # ship.image = pygame.image.load('images/player_back.png')
-        ship.image = pygame.image.load('images/' + ship.direction + str(ship.level) + '.png')
+        hero.moving_up = True
+        hero.direction = "up"
+        hero.image = pygame.image.load('images/' + hero.direction + str(hero.level) + '.png')
     if event.key == pygame.K_s:
-        ship.moving_down = True
-        ship.direction = "down"
-        # ship.image = pygame.image.load('images/player_front.png')
-        ship.image = pygame.image.load('images/' + ship.direction + str(ship.level) + '.png')
-
+        hero.moving_down = True
+        hero.direction = "down"
+        hero.image = pygame.image.load('images/' + hero.direction + str(hero.level) + '.png')
     elif event.key == pygame.K_j:
-        if len(bullets) < game_setting.bullet_allowed and stats.game_active:
+        if len(bullets) < game_setting.bullet_allowed:
             shot_sound.play()
-        fire_bullet(game_setting, screen, ship, bullets)
-    elif event.key == pygame.K_F1:
-        alien_attack(game_setting, screen, aliens, alien_bullets_1)
+        fire_bullet(game_setting, screen, hero, bullets)
 
 
-def check_events(game_setting, screen, ship, bullets, aliens, gifts, shot_sound, bg, stats,
-                 alien_bullets_1, scene):
+'''检查鼠标、键盘事件'''
+
+
+def check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound, bg, scene):
     screen.blit(bg, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, game_setting, screen, ship, bullets, shot_sound, aliens, alien_bullets_1, stats)
+            check_keydown_events(event, game_setting, screen, hero, bullets, shot_sound, demons)
         elif event.type == pygame.KEYUP:
-            check_keyup_events(event, ship)
+            check_keyup_events(event, hero)
 
 
-def update_screen(game_setting, screen, ship, bullets, aliens, gifts, stats, alien_bullets_1):
-    for bullet in bullets.sprites():
-        bullet.appear()
-    for gift in gifts.sprites():
-        gift.appear()
-    for alien_bullet in alien_bullets_1.sprites():
-        alien_bullet.appear()
-    ship.appear()
-    aliens.draw(screen)
+'''更新屏幕内子弹、掉落的道具、主角位置'''
 
 
-def check_keyup_events(event, ship):
+def update_screen(game_setting, screen, hero, bullets, demons, gifts):
+    bullets.update()
+    gifts.update()
+    hero.update()
+    demons.draw(screen)
+
+
+'''检查键盘弹起事件'''
+
+
+def check_keyup_events(event, hero):
     if event.key == pygame.K_d:
-        ship.moving_right = False
+        hero.moving_right = False
     if event.key == pygame.K_a:
-        ship.moving_left = False
+        hero.moving_left = False
     if event.key == pygame.K_w:
-        ship.moving_up = False
+        hero.moving_up = False
     if event.key == pygame.K_s:
-        ship.moving_down = False
+        hero.moving_down = False
 
 
-def create_fleet(game_setting, screen, aliens, scene):
-    for alien_number in range(game_setting.alien_number):
-        create_alien(game_setting, screen, aliens, alien_number, scene)
+'''创建怪物群'''
 
 
-def create_alien(game_setting, screen, aliens, alien_number, scene):
-    alien = Alien(screen, game_setting)
-    alien_width = alien.rect.width
-    alien_height = alien.rect.height
-    alien.image_url = game_setting.alien_image[alien.dir]
-    alien.image_url = alien.image_url.replace("1_", str(scene) + "_")
-    alien.image = pygame.image.load(alien.image_url)
-    alien.x = alien_width + 1 * alien_width * alien_number
-    alien.rect.x = random.randrange(0, game_setting.screen_width - alien_width)
-    alien.rect.y = random.randrange(0, game_setting.screen_height - 2 * alien_height)
-
-    aliens.add(alien)
+def create_fleet(game_setting, screen, demons, scene):
+    for demon_number in range(game_setting.demon_number):
+        create_demon(game_setting, screen, demons, demon_number, scene)
 
 
-def dead_gameover(stats, ship, game_setting):
-    ship.live_volume = 0
-    stats.game_active = False
-    ship.dead = True
+'''创建单个怪物'''
 
 
+def create_demon(game_setting, screen, demons, demon_number, scene):
+    demon = Demon(screen, game_setting)
+    demon_width = demon.rect.width
+    demon_height = demon.rect.height
+    demon.image_url = game_setting.demon_image[demon.dir]
+    demon.image_url = demon.image_url.replace("1_", str(scene) + "_")
+    demon.image = pygame.image.load(demon.image_url)
+    demon.x = demon_width + 1 * demon_width * demon_number
+    demon.rect.x = random.randrange(0, game_setting.screen_width - demon_width)
+    demon.rect.y = random.randrange(0, game_setting.screen_height - 2 * demon_height)
+    demons.add(demon)
 
 
+'''检测boss状态，当主角的杀敌数达到一定数量时，boss出现'''
 
-def update_test(ship, boss, aliens):
-    if ship.kill_number == 3:
-        aliens.add(boss)
-        boss.blitAlien()
+
+def update_boss(hero, boss, demons):
+    if hero.kill_number == 3:
+        demons.add(boss)
+        boss.update()
