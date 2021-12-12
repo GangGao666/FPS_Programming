@@ -1,6 +1,6 @@
 
 
-![](C:\Users\Seeumt\Desktop\UK\OneDrive - The University of Nottingham\Study in UK\Programming\pygame-ex\Rebuild_2\images\relaxedfish.png)
+![](images/relaxedfish.png)
 
 Group: RelaxedFish
 
