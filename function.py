@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pygame
 import sys
 from Button import Begin, Back, Help, About, Parkour, Fight
@@ -6,8 +5,8 @@ from Player import Player, Tp
 from Monster import Monsters
 from my_enum import Scene
 
-tp_fx = pygame.mixer.Sound("sound/tpsound.mp3")
-tp_fx.set_volume(0.5)
+tp_fx = pygame.mixer.Sound("sound/tpsound.mp3") #Importing tp sound effects
+tp_fx.set_volume(0.5) #Setting the sound volume
 
 # menu scene
 def menu(screen):
