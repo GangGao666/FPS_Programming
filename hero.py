@@ -13,18 +13,23 @@ class Hero:
         self.image = pygame.image.load(game_setting.hero_image[self.level])
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
+        # 将英雄初始位置设置为屏幕下方中部
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
+        # 英雄是否持续向右移动
         self.moving_right = False
+        # 英雄是否持续向左移动
         self.moving_left = False
+        # 英雄是否持续向上移动
         self.moving_up = False
+        # 英雄是否持续向下移动
         self.moving_down = False
         self.hero_speed = game_setting.hero_speed
         # 英雄移动方向 默认值为"up",可以为up/down/left/right
         self.direction = "up"
         # 英雄生命值
         self.live_volume = game_setting.hero_live_volume
-        # 英雄与怪物的碰撞半径
+        # 英雄与恶魔的碰撞半径
         self.radius = 0.5
         # 英雄是否处于无敌状态
         self.shield = False
@@ -32,8 +37,6 @@ class Hero:
         self.shield_time = game_setting.hero_shield_time
         # 英雄的击杀数目
         self.kill_number = 0
-        # 英雄是否击杀boss
-        self.finish = False
         # 英雄是否拾取boss跌落的道具
         self.win = False
         # 英雄是否死亡
@@ -42,13 +45,13 @@ class Hero:
     '''
     重写了Sprite的update函数，Sprite类中的Groups数组可以调用这个方法，
     使得Groups数组中的每个对象执行此方法
-    将主角显示在屏幕上
+    将英雄显示在屏幕上
     '''
 
     def update(self):
         self.screen.blit(self.image, self.rect)
 
-    '''连续移动主角并确保其活动范围不超过屏幕'''
+    '''连续移动英雄并确保其在屏幕范围内活动'''
 
 
     def move(self):

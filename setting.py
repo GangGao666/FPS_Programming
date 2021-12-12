@@ -19,7 +19,7 @@ class Setting:
         self.hero_shield_time = 80
         # 英雄的初始形象的图像路径列表
         self.hero_image = ["images/up1.png","images/up2.png","images/up3.png"]
-        # 怪物随机掉落道具的图像路径列表
+        # 恶魔随机掉落道具的图像路径列表
         self.gift_image = ["images/vaccine1.png","images/vaccine2.png","images/vaccine3.png"]
         # boss随机掉落道具的图像路径列表
         self.gift_boss_image = ["images/gift3.png","images/gift4.png","images/gift5.png"]
@@ -29,17 +29,20 @@ class Setting:
         self.bullet_allowed = 1
         # 英雄可发射的子弹的图像路径列表
         self.bullet_image = ["images/mask1.png","images/mask2.png","images/mask3.png"]
-        # 怪物移动速度
+        # 恶魔移动速度
         self.demon_speed = 3
-        # 初始怪物数目
-        self.demon_number = 6
-        # 怪物垂直方向的移动速度
+        # 初始恶魔数目
+        self.demon_number = 8
+        # 恶魔垂直方向的移动速度
         self.demon_drop_speed = 1.5
-        # 怪物水平初始移动方向，1代表向右，-1代表向左
+        # 恶魔水平初始移动方向，1代表向右，-1代表向左
         self.demon_direction = 1
-        # 怪物初始移动图像列表
+        # 恶魔初始移动图像列表
         self.demon_image = ["images/monster1_right.png","images/monster1_left.png"]
 
+    '''
+    改变开始、帮助、关于按钮的点击音效，并加入点击音效
+    '''
     def check_btn(self,x1,x2,y1,y2,sound):
         check = pygame.mouse.get_pressed()
         x, y = pygame.mouse.get_pos()

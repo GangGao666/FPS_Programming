@@ -4,6 +4,7 @@ import sys
 from Button import Begin, Back, Help, About, Parkour, Fight
 from Player import Player, Tp
 from Monster import Monsters
+from my_enum import Scene
 
 tp_fx = pygame.mixer.Sound("sound/tpsound.mp3")
 tp_fx.set_volume(0.5)
@@ -24,11 +25,11 @@ def menu(screen):
             # if user click one of option, it will direct the user to the corresponding scene
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if begin.check_button():
-                    return 11
+                    return Scene.MODE.value
                 if help.check_button():
-                    return 1
+                    return Scene.HELP.value
                 if about.check_button():
-                    return 7
+                    return Scene.ABOUT.value
                 # if end.check_button():
                 #     pygame.quit()
                 #     sys.exit()
@@ -72,9 +73,9 @@ def game1(screen, scene):
         screen.blit(tp.image, (tp.x, tp.y))
         if nextlevel(player, tp):
             tp_fx.play()
-            return 3
+            return Scene.MODE1_GAME2.value
         if player.checkDead():
-            return 6
+            return Scene.FAIL.value
         #        if player.checkSuccess():
         #            return 3
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
@@ -111,10 +112,10 @@ def game2(screen, scene):
         screen.blit(bg_2, (0, 0))
         screen.blit(tp.image, (tp.x, tp.y))
         if player.checkDead():
-            return 6
+            return Scene.FAIL.value
         if nextlevel(player, tp):
             tp_fx.play()
-            return 4
+            return Scene.MODE1_GAME3.value
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))
         player.life -= 0.004
@@ -153,9 +154,9 @@ def game3(screen, scene):
         screen.blit(bg_3, (0, 0))
         screen.blit(tp.image, (tp.x, tp.y))
         if player.checkDead():
-            return 6
+            return Scene.FAIL.value
         if nextlevel(player, tp):
-            return 5
+            return Scene.SUCCESS.value
         # if player.checkSuccess():
         #     return 5
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
@@ -194,7 +195,7 @@ def success(screen):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
-                    return 0
+                    return Scene.MENU.value
         success = pygame.image.load('./images/success.png')
         success = pygame.transform.scale(success, (1200, 800))
         screen.blit(success, (0, 0))
@@ -212,7 +213,7 @@ def fail(screen):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
-                    return 0
+                    return Scene.MENU.value
         fail = pygame.image.load('./images/fail.png')
         fail = pygame.transform.scale(fail, (1200, 800))
         screen.blit(fail, (0, 0))
@@ -230,7 +231,7 @@ def help(screen):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
-                    return 0
+                    return Scene.MENU.value
         help = pygame.image.load('./images/help.png')
         help = pygame.transform.scale(help, (1200, 800))
         screen.blit(help, (0, 0))
@@ -255,18 +256,17 @@ def about(screen):
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
-                    return 0
+                    return Scene.MENU.value
         about = pygame.image.load('./images/about.png')
         about = pygame.transform.scale(about, (1200, 800))
         screen.blit(about, (0, 0))
-        # screen.blit(back.image, (back.x, back.y))
         pygame.display.update()
 
 
 def mode(screen):
     parkour = Parkour()
     fight = Fight()
-
+    back = Back()
     while True:
 
         # Handle events.
@@ -277,13 +277,12 @@ def mode(screen):
             # if user click one of option, it will direct the user to the corresponding scene
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if parkour.check_button():
-                    return 2
+                    return Scene.MODE1_GAME1.value
                 if fight.check_button():
-                    return 8
-
-                # if end.check_button():
-                #     pygame.quit()
-                #     sys.exit()
+                    return Scene.MODE2_GAME1.value
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if back.check_button():
+                        return Scene.MENU.value
         # draw the menu
         maininterface = pygame.image.load('./images/mode.png')
         maininterface = pygame.transform.scale(maininterface, (1200, 800))

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : gift.py
-# @Description 击杀怪物后掉落的道具类，继承了pygame中的Sprite类
+# @Description 击杀恶魔后掉落的道具类，继承了pygame中的Sprite类
 import pygame
 from pygame.sprite import Sprite
 import random
