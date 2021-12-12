@@ -78,7 +78,7 @@ class Player():
             self.collide(monsters)
 
 
-    def check_keyup_events(self,event):
+    def check_keyup_events(self,event,monsters):
         if event.key == pygame.K_j:
             self.image = self.img_list[self.dir]
             self.att = False
