@@ -2,6 +2,16 @@
 # -*- coding: utf-8 -*-
 # @File : game_functions.py
 # @Description : 整合了“战斗模式”的函数
+"""In this module, some key function design logic, ideas and the normative structure
+    of programming are inspired by a python book called
+    "Python Crash Course - A Hands-On, Project-Based Introduction to Programming
+    by Eric Matthes", which
+    is download from the link:
+    https://b-ok.cc/
+    Only ideas were learned from it, but no code was copied.
+
+    """
+
 import sys
 import random
 import pygame
@@ -65,7 +75,7 @@ def update_demons(game_setting, bullets, demons, gifts, hero):
             demon.image = pygame.image.load(demon.image_url)
 
 
-'''更新掉落道具的状态'''
+'''Update the status of dropped items'''
 
 
 def update_gifts(game_setting, gifts, hero, gift_sound):
@@ -88,9 +98,9 @@ def update_gifts(game_setting, gifts, hero, gift_sound):
             game_setting.demon_speed = game_setting.demon_speed - 0.1
         # If it is a category 2 items
         if gift_type == 2:
-            # 子弹速度增加
+            # The speed of bullet increased
             game_setting.bullet_speed += 0.1
-            # 增加子弹限制数目
+            # Increase the limited number of bullets
             game_setting.bullet_allowed += 1
         # If it is a category 4 or 5 or 6 items
         if gift_type in [4, 5, 6]:

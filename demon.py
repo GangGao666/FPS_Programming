@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : demon.py
-# @Description Demon class, inherits the Sprite class in pygame
+# @Description 恶魔类,继承了pygame中的Sprite类
+"""In this module, demons are created, added and deleted
+    are inspired by a python book called
+    "Python Crash Course - A Hands-On, Project-Based Introduction to Programming by Eric Matthes", which
+    is download from the link:
+    https://b-ok.cc/
+    Only ideas were learned from it, but no code was copied.
+
+    """
+
 import random
 
 import pygame

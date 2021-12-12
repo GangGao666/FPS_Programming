@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @File : bullet.py
-# @Description The bullet class, which inherits the Sprite class in pygame
+# @Description
+"""
+In this module, bullets are created, added and deleted
+    and collision monitoring with monsters are inspired by a python book called
+    "Python Crash Course - A Hands-On, Project-Based Introduction to Programming by Eric Matthes", which
+    is download from the link:
+    https://b-ok.cc/
+    Only ideas were learned from it, but no code was copied.
+"""
+
 import pygame
 from pygame.sprite import Sprite
 
