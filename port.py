@@ -51,7 +51,7 @@ def pre_prepare(scene):
     return game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss,bg,scene
 
 
-'''Fight模式第一关游戏入口'''
+'''ENTRANCE TO THE FIRST LEVEL OF FIGHT MODE'''
 
 
 def game1(scene):
@@ -60,7 +60,7 @@ def game1(scene):
     while True:
         game_body(game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss, bg,
                   scene)
-        # 如果英雄死亡，跳转到失败页面
+        # If the hero dies, jump to the failure page
         if hero.dead:
             return Scene.FAIL.value
         # 如果英雄胜利，进入下一关
@@ -69,7 +69,7 @@ def game1(scene):
         pygame.display.flip()
 
 
-'''Fight模式第二关游戏入口'''
+'''ENTRANCE TO THE SECOND LEVEL OF FIGHT MODE'''
 
 
 def game2(scene):
@@ -78,16 +78,16 @@ def game2(scene):
     while True:
         game_body(game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss, bg,
                   scene)
-        # 如果英雄死亡，跳转到失败页面
+        # If the hero dies, jump to the failure page
         if hero.dead:
             return Scene.FAIL.value
-        # 如果英雄胜利，进入下一关
+        # If the hero wins, go to the next level
         if hero.win:
             return Scene.MODE2_GAME3.value
         pygame.display.flip()
 
 
-'''Fight模式第三关游戏入口'''
+'''ENTRANCE TO THE THIRD LEVEL OF FIGHT MODE'''
 
 
 def game3(scene):
@@ -96,10 +96,10 @@ def game3(scene):
     while True:
         game_body(game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss, bg,
                   scene)
-        # 如果英雄死亡，跳转到失败页面
+        # If the hero dies, jump to the failure page
         if hero.dead:
             return Scene.FAIL.value
-        # 如果英雄胜利，跳转到成功页面
+        # If the hero wins, jump to the success page
         if hero.win:
             return Scene.SUCCESS.value
         pygame.display.flip()
@@ -107,34 +107,34 @@ def game3(scene):
 
 def game_body(game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss, bg,
               scene):
-    # 当英雄处于无敌状态
+    # When the hero is invincible
     if hero.shield:
         # todo setting
-        # 英雄无敌时间减少
+        # Hero's invincibility time reduced
         hero.shield_time = hero.shield_time - 0.5
-        # 当无敌时间小于等于0时
+        # When the hero's invincibility time is less than or equal to 0
         if hero.shield_time <= 0:
-            # 无敌状态关闭
+            # Hero's invincibility is off
             hero.shield = False
-    # 检查鼠标、键盘事件
+    # Check mouse and keyboard events
     gf.check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound, bg, scene)
-    # 英雄移动
+    # Hero moves
     hero.move()
     # 更新子弹状态
     gf.update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision_sound, scene)
-    # 检测每个恶魔的状态
+    # Check the status of each demon
     gf.update_demons(game_setting, bullets, demons, gifts, hero)
-    # 更新掉落道具的状态
+    # Update the status of dropped items
     gf.update_gifts(game_setting, gifts, hero, gift_sound)
-    # 更新并追踪英雄生存状态
+    # Update and track hero survival status
     gf.update_hero(game_setting, hero)
-    # 检测boss状态
+    # Check boss status
     gf.update_boss(hero, boss, demons)
-    # 加载英雄剩余血量图片
+    # Load the hero's remaining HP image
     life_rect = pygame.image.load("images/life.png")
-    # 动态展示英雄剩余血量
+    # Dynamically display the hero's remaining HP
     life_ = pygame.transform.scale(life_rect, (
         life_rect.get_rect()[2] * abs(hero.live_volume), life_rect.get_rect()[3]))
     screen.blit(life_, (10, 10))
-    # 更新屏幕内子弹、掉落的道具、英雄位置
+    # Update bullets, dropped items, hero positions on the screen
     gf.update_screen(game_setting, screen, hero, bullets, demons, gifts)

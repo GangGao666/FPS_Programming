@@ -13,10 +13,11 @@ class Bullet(Sprite):
         self.screen_rect = screen.get_rect()
         self.image = pygame.image.load(game_setting.bullet_image[hero.level - 1])
         self.rect = self.image.get_rect()
-        # 将子弹的初始水平位置设置为英雄水平位置一致，目的在于为了优化子弹射击的视觉效果
+        # Set the initial horizontal position of the bullet to be consistent with the hero horizontal position,
+        # in order to optimize the visual effect of bullet shooting
         self.rect.centerx = hero.rect.centerx
         self.rect.top = hero.rect.top
-        # 用小数表示的子弹位置
+        # Bullet position expressed as a decimal
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
         # 子弹的速度
