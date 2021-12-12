@@ -20,7 +20,7 @@ from demon import Demon
 from gift import Gift
 import numpy as np
 
-'''Check whether each demon in the demon group touches the edge of the screen, if so, change the direction of movement'''
+'''检查恶魔群中的每个恶魔是否触及到屏幕边缘，如果是则改变运动方向'''
 
 
 def check_fleet_edges(game_setting, demons):
@@ -29,8 +29,7 @@ def check_fleet_edges(game_setting, demons):
             demon.change_direction()
 
 
-'''Update and track the hero’s survival status. The hero’s health is continuously falling. 
-When the hero’s health is less than or equal to 0, the hero is judged to be dead'''
+'''更新并追踪英雄生存状态，英雄的生命值在不断自动下降，当英雄的生命值小于等于0时，判定英雄死亡'''
 
 
 def update_hero(game_setting, hero):
@@ -40,36 +39,35 @@ def update_hero(game_setting, hero):
         hero.dead = True
 
 
-'''Detect the status of each demon: check if it touches the edge of the screen'''
+'''检测每个恶魔的状态：检查是否触及屏幕边缘'''
 
 
 def update_demons(game_setting, bullets, demons, gifts, hero):
     check_fleet_edges(game_setting, demons)
-    # Update demon position
+    # 更新恶魔位置
     demons.update()
-    # Determine if the hero is in contact with the devil
+    # 判断是否英雄是否与恶魔接触
     coll = pygame.sprite.spritecollide(hero, demons, False, pygame.sprite.collide_circle)
-    # If contact
+    # 如果接触
     if coll:
-        # Get information about that devil
+        # 获取那个恶魔的信息，
         demon = pygame.sprite.spritecollideany(hero, demons)
-        # Set its stop attribute to 1
+        # 将其stop属性设置为1
         demon.stop = 1
-        # Change the image of the demon to an image of attack status
+        # 将恶魔的图像更改为攻击图像
         image_url = demon.image_url
         image_url_attack = image_url.replace("/", "/attack_")
         demon.image = pygame.image.load([image_url, image_url_attack][np.random.choice([0, 1])])
-        # When the hero is not invincible, the demon's single attack is effective
+        # 当英雄不处于无敌状态时，恶魔单次攻击有效
         if not hero.shield:
-            # Hero's HP decreased
+            # 英雄血量降低
             hero.live_volume = hero.live_volume - demon.power
-            # After being attacked, set the hero to an invincible state for a period of time
+            # 收到攻击后，将英雄设置一段时间的无敌状态
             hero.shield = True
-            # Set the hero's invincibility time
+            # 设置英雄的无敌时间
             hero.shield_time = game_setting.hero_shield_time
     else:
-        # If the hero is not in contact with the devil, set the devil’s stop attribute to 0,
-        # the devil will return to its normal state, and the devil’s appearance will be changed
+        # 如果英雄没有与恶魔接触，将恶魔stop属性设置为0，恶魔恢复正常状态，并改变恶魔外表
         for demon in demons.sprites():
             demon.stop = 0
             demon.image = pygame.image.load(demon.image_url)
@@ -79,48 +77,46 @@ def update_demons(game_setting, bullets, demons, gifts, hero):
 
 
 def update_gifts(game_setting, gifts, hero, gift_sound):
-    # If the hero get the item successfully
+    # 如果英雄拾取道具成功
     coll = pygame.sprite.spritecollideany(hero, gifts)
     if coll:
-        # The hero's HP is restored to its original state
+        # 英雄生命值恢复初始状态
         hero.live_volume = game_setting.hero_live_volume
-        # Play the audio of getting the items
+        # 播放获取道具的音频
         gift_sound.play()
-        # Get the type of items
+        # 获取道具的类型
         gift_type = pygame.sprite.spritecollideany(hero, gifts).gift_type
-        # If it is a category 0 items
+        # 如果是0类道具
         if gift_type == 0:
-            # Hero's speed increased by 0.1
+            # 英雄速度增加0.1
             hero.hero_speed += 0.1
-        # If it is a category 1 items
+        # 如果是1类道具
         if gift_type == 1:
-            # Demon speed decreased by 0.1
+            # 恶魔速度减少0.1
             game_setting.demon_speed = game_setting.demon_speed - 0.1
-        # If it is a category 2 items
+        # 如果是2类道具
         if gift_type == 2:
             # The speed of bullet increased
             game_setting.bullet_speed += 0.1
             # Increase the limited number of bullets
             game_setting.bullet_allowed += 1
-        # If it is a category 4 or 5 or 6 items
+        # 如果是4/5/6类道具
         if gift_type in [4, 5, 6]:
-            # The hero is in a victorious state and enter the next level
+            # 英雄处于胜利状态，进入下一关
             hero.win = True
-        # Demon speed increased by 0.05
+        # 加快恶魔移动速度
         game_setting.demon_speed = game_setting.demon_speed + 0.05
-        # Remove the props picked up by the hero from the screen
+        # 将英雄拾取的道具从屏幕中移除
         coll.remove(gifts)
 
 
-'''Update bullet status: update the position of the bullet, 
-    detect whether the bullet hits, and handle the bullet after the hit'''
+'''更新子弹状态：更新子弹所处位置、检测子弹是否撞击，以及撞击后的对子弹的处理'''
 
 
 def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision_sound, scene):
-    # After the bullet is installed,
-    # directly call the update() method of the Sprite Group array object to update the bullet position
+    # 装好子弹后，直接将Sprite的Group数组对象调用update()方法，更新子弹位置
     bullets.update()
-    # Delete the bullets that go beyond the screen
+    # 删除超出屏幕的子弹
     for bullet in bullets.copy():
         if bullet.rect.bottom <= bullet.screen_rect.top:
             bullets.remove(bullet)
@@ -130,42 +126,40 @@ def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision
             bullets.remove(bullet)
         if bullet.rect.right <= bullet.screen_rect.left:
             bullets.remove(bullet)
-    # Determine whether the bullet collides with the demon,
-    # and delete the corresponding bullet and demon on the screen
+    # 判断子弹是否与恶魔碰撞，并将屏幕上对应的子弹和恶魔删除
     coll = pygame.sprite.groupcollide(bullets, demons, True, True)
-    # If there is a collision
+    # 如果碰撞
     if coll:
-        # Hero kills increased
+        # 英雄的击杀数量增加
         hero.kill_number += 1
-        # Play impact audio
+        # 播放撞击音频
         collision_sound.play()
     '''
     https://stackoverflow.com/questions/66746880/how-to-access-each-items-attributes-in-a-list-returned-by-groupcollide-in-pyth
-    In order to solve the problem of finding the specific demon hit by the bullet, 
-    we learned this function from stackoverflow
+    为了解决找到子弹击中的具体恶魔，借鉴了stackoverflow
     '''
-    # Find every bullet that hits
+    # 找到发生撞击的每一个子弹
     for bullet in coll:
-        # Look for the demon who collided with the bullet
+        # 寻找与其发生撞击的恶魔
         for demon in coll[bullet]:
-            # Create item
+            # 创建道具
             gift = Gift(screen, game_setting)
-            # Set the position of the demon hit by the bullet to the position where the item appears
+            # 将被子弹撞击的恶魔的位置设置为道具出现位置
             gift.rect.x = demon.rect.x
             gift.rect.y = demon.rect.y
-            # If the demon colliding with the bullet is the boss
+            # 如果与子弹碰撞的恶魔是boss
             if demon.type_ == 'boss':
-                # Empty all demons in the demonic group
+                # 清空恶魔群组中的所有恶魔
                 demons.empty()
-                # Set different drop items for demons in different levels
+                # 为不同关卡的恶魔设置不同的掉落道具
                 gift.gift_type = scene + len(game_setting.gift_image)
-                # Set up different appearances for the demons in different levels
+                # 为不同关卡的恶魔设置不同的外表
                 gift.image = pygame.image.load(game_setting.gift_boss_image[scene - 1])
-            # Add the created props to the items group
+            # 将创建好的道具添加到道具群组里
             gifts.add(gift)
-    # When only the boss and hero are left in the game
+    # 当只剩boss时
     if len(demons) == 1:
-        # Create a new fleet of demons
+        # 创建新的恶魔群
         create_fleet(game_setting, screen, demons, scene)
 
 # todo citation book website
@@ -173,19 +167,19 @@ def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision
 
 
 def fire_bullet(game_setting, screen, hero, bullets):
-    # When the current bullet on the screen is less than the bullet limit
+    # 当目前屏幕内的子弹小于子弹限制数量时
     if len(bullets) < game_setting.bullet_allowed:
-        # Create bullet
+        # 创建子弹
         new_bullet = Bullet(game_setting, screen, hero)
-        # Set the hero movement direction to the bullet movement direction
+        # 将英雄移动方向设置为子弹移动方向
         new_bullet.direction = hero.direction
-        # Set the hero as the host of the bullet
+        # 将英雄设置为子弹的host
         new_bullet.host = 'hero'
-        # Add the bullet created and added to the bullet list
+        # 将创建和的子弹添加到子弹列表中
         bullets.add(new_bullet)
 
 
-'''Detect keydown of keyboard events'''
+'''检测键盘敲击事件'''
 
 
 def check_keydown_events(event, game_setting, screen, hero, bullets, shot_sound, demons):
@@ -211,13 +205,13 @@ def check_keydown_events(event, game_setting, screen, hero, bullets, shot_sound,
         fire_bullet(game_setting, screen, hero, bullets)
 
 
-'''Check mouse and keyboard events'''
+'''检查鼠标、键盘事件'''
 
 
 def check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound, bg, scene):
-    # Draw a background image
+    # 绘制背景图片
     screen.blit(bg, (0, 0))
-    # Monitor click, keyboard and other events
+    # 监听点击、键盘等事件
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -227,7 +221,7 @@ def check_events(game_setting, screen, hero, bullets, demons, gifts, shot_sound,
             check_keyup_events(event, hero)
 
 
-'''Update bullets, dropped items, hero positions on the screen'''
+'''更新屏幕内子弹、掉落的道具、英雄位置'''
 
 
 def update_screen(game_setting, screen, hero, bullets, demons, gifts):
@@ -237,7 +231,7 @@ def update_screen(game_setting, screen, hero, bullets, demons, gifts):
     demons.update()
 
 
-'''Detect keyup of keyboard events'''
+'''检查键盘弹起事件'''
 
 
 def check_keyup_events(event, hero):
@@ -251,7 +245,7 @@ def check_keyup_events(event, hero):
         hero.moving_down = False
 
 
-'''Create a fleet of demons'''
+'''创建恶魔群'''
 
 
 def create_fleet(game_setting, screen, demons, scene):
@@ -259,36 +253,35 @@ def create_fleet(game_setting, screen, demons, scene):
         create_demon(game_setting, screen, demons, demon_number, scene)
 
 
-'''Create a single demon'''
+'''创建单个恶魔'''
 
 
 def create_demon(game_setting, screen, demons, demon_number, scene):
-    # Create a demon object
+    # 创建恶魔对象
     demon = Demon(screen, game_setting)
-    # Set demon size
+    # 设置恶魔尺寸
     demon_width = demon.rect.width
     demon_height = demon.rect.height
-    # Show different appearances according to the moving direction of the devil
+    # 根据恶魔的移动方向，展现不同的外表
     demon.image_url = game_setting.demon_image[demon.dir]
-    # Set up different appearances for different levels of demons
+    # 为不同级别的恶魔设置不同的外表
     demon.image_url = demon.image_url.replace("1_", str(scene) + "_")
     demon.image = pygame.image.load(demon.image_url)
-    # Set different initial positions for different demons
+    # 为不同恶魔设置不同的初始位置
     demon.x = demon_width + 1 * demon_width * demon_number
     demon.rect.x = random.randrange(0, game_setting.screen_width - demon_width)
     demon.rect.y = random.randrange(0, game_setting.screen_height - 2 * demon_height)
-    # Add the created demon to the demon group
+    # 将创建好的恶魔添加到恶魔群组中
     demons.add(demon)
 
 
-'''Detect the boss status, 
-when the hero kills a certain number of enemies, the boss appears'''
+'''检测boss状态，当英雄的杀敌数达到一定数量时，boss出现'''
 
 
 def update_boss(hero, boss, demons):
-    # After killing a certain number of demons, the boss appears
+    # 击杀一定数目的恶魔后，boss出现
     if hero.kill_number == 3:
-        # Add the previously created boss to the demon group
+        # 将之前创建好的boss加入恶魔群组中
         demons.add(boss)
-        # Draw the boss to the screen
+        # 将boss绘制到屏幕上
         boss.update()
