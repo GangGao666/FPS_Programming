@@ -2,8 +2,8 @@ import pygame
 from setting import Setting
 
 pygame.init()
-click_fx = pygame.mixer.Sound("sound/click.wav")
-click_fx.set_volume(0.3)
+click_fx = pygame.mixer.Sound("sound/click.wav") #Importing clickable sound effects
+click_fx.set_volume(0.3) #Setting the sound volume
 
 
 class Button:
