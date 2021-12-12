@@ -15,7 +15,8 @@ from pygame.sprite import Group
 
 def pre_prepare(scene):
     scene = scene - 7
-    bg = pygame.image.load('./images/bg' + str(scene) + '.png').convert()
+    bg = pygame.image.load('./images/bg' + str(scene+3) + '.png').convert()
+    bg = pygame.transform.scale(bg, (1200, 800))
     game_setting = Setting()
     gift_sound = pygame.mixer.Sound('sound/gift4.mp3')
     gift_sound.set_volume(0.1)
