@@ -9,14 +9,13 @@ tp_fx = pygame.mixer.Sound("sound/tpsound.mp3")
 tp_fx.set_volume(0.5)
 
 # menu scene
-def menu(screen, font):
+def menu(screen):
     # begin, end, and help option in menu
-    begin = Begin(font)
-    help = Help(font)
-    about = About(font)
+    begin = Begin()
+    help = Help()
+    about = About()
 
     while True:
-
         # Handle events.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -37,19 +36,15 @@ def menu(screen, font):
         maininterface = pygame.image.load('./images/bg0.png')
         maininterface = pygame.transform.scale(maininterface, (1200, 800))
         screen.blit(maininterface, (0, 0))
-        # screen.fill((255,255,255))
-        # screen.blit(begin.image,(begin.x,begin.y))
-        # screen.blit(end.image, (end.x, end.y))
-        # screen.blit(helpp.image,(helpp.x,helpp.y))
         pygame.display.update()
 
 
-def game1(screen, font, scene):
+def game1(screen, scene):
     # init player, back option and monsters
     player = Player(screen)
     player.level = scene - 1
     tp = Tp()
-    back = Back(font)
+    back = Back()
     bg_1 = pygame.image.load('images/bg1.png').convert()
     bg_1 = pygame.transform.scale(bg_1, (1200, 800))
     speed = 0.1
@@ -91,11 +86,10 @@ def game1(screen, font, scene):
         pygame.display.update()
 
 
-def game2(screen, font, scene):
+def game2(screen, scene):
     player = Player(screen)
     player.level = scene - 1
     tp = Tp()
-    back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./images/life.png')
     monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 2)
@@ -114,8 +108,6 @@ def game2(screen, font, scene):
                 player.check_keydown_events(event, monsters)
             elif event.type == pygame.KEYUP and not player.checkDead():
                 player.check_keyup_events(event)
-
-        # screen.blit(pygame.image.load('./back2.png'), (0, 0))
         screen.blit(bg_2, (0, 0))
         screen.blit(tp.image, (tp.x, tp.y))
         if player.checkDead():
@@ -123,22 +115,18 @@ def game2(screen, font, scene):
         if nextlevel(player, tp):
             tp_fx.play()
             return 4
-        #        if player.checkSuccess():
-        #            return 4
         life = pygame.transform.scale(blood, (blood.get_rect()[2] * player.life, blood.get_rect()[3]))
         screen.blit(life, (10, 10))
-        # screen.blit(back.image, (back.x, back.y))
         player.life -= 0.004
         player.show()
         monsters.update(screen)
         pygame.display.update()
 
 
-def game3(screen, font, scene):
+def game3(screen, scene):
     player = Player(screen)
     player.level = scene - 1
     tp = Tp()
-    back = Back(font)
     speed = 0.1
     blood = pygame.image.load('./images/life.png')
     monsters = Monsters(screen, pygame.image.load('./images/blood_bag.png'), player, speed, 2)
@@ -167,7 +155,6 @@ def game3(screen, font, scene):
         if player.checkDead():
             return 6
         if nextlevel(player, tp):
-
             return 5
         # if player.checkSuccess():
         #     return 5
@@ -179,7 +166,7 @@ def game3(screen, font, scene):
         monsters.update(screen)
         pygame.display.update()
 
-
+# todo 时间问题
 def nextlevel(A, B):
     listx, listy = A.checkxy()
     listx1, listy1 = B.checkxy()
@@ -196,8 +183,8 @@ def nextlevel(A, B):
         return False
 
 
-def success(screen, font):
-    back = Back(font)
+def success(screen):
+    back = Back()
 
     while True:
         # Handle events.
@@ -208,15 +195,14 @@ def success(screen, font):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
                     return 0
-        screen.fill((255, 255, 255))
-        about = pygame.image.load('./images/success.png')
-        about = pygame.transform.scale(about, (1200, 800))
-        screen.blit(about, (0, 0))
+        success = pygame.image.load('./images/success.png')
+        success = pygame.transform.scale(success, (1200, 800))
+        screen.blit(success, (0, 0))
         pygame.display.update()
 
 
-def fail(screen, font):
-    back = Back(font)
+def fail(screen):
+    back = Back()
 
     while True:
         # Handle events.
@@ -227,15 +213,14 @@ def fail(screen, font):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
                     return 0
-        screen.fill((255, 255, 255))
-        about = pygame.image.load('./images/fail.png')
-        about = pygame.transform.scale(about, (1200, 800))
-        screen.blit(about, (0, 0))
+        fail = pygame.image.load('./images/fail.png')
+        fail = pygame.transform.scale(fail, (1200, 800))
+        screen.blit(fail, (0, 0))
         pygame.display.update()
 
 
-def help(screen, font):
-    back = Back(font)
+def help(screen):
+    back = Back()
 
     while True:
         # Handle events.
@@ -246,7 +231,6 @@ def help(screen, font):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
                     return 0
-        screen.fill((255, 255, 255))
         help = pygame.image.load('./images/help.png')
         help = pygame.transform.scale(help, (1200, 800))
         screen.blit(help, (0, 0))
@@ -260,8 +244,8 @@ def help(screen, font):
         pygame.display.update()
 
 
-def about(screen, font):
-    back = Back(font)
+def about(screen):
+    back = Back()
 
     while True:
         # Handle events.
@@ -272,7 +256,6 @@ def about(screen, font):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back.check_button():
                     return 0
-        screen.fill((255, 255, 255))
         about = pygame.image.load('./images/about.png')
         about = pygame.transform.scale(about, (1200, 800))
         screen.blit(about, (0, 0))
@@ -280,9 +263,9 @@ def about(screen, font):
         pygame.display.update()
 
 
-def mode(screen,font):
-    parkour = Parkour(font)
-    fight = Fight(font)
+def mode(screen):
+    parkour = Parkour()
+    fight = Fight()
 
     while True:
 
@@ -306,3 +289,4 @@ def mode(screen,font):
         maininterface = pygame.transform.scale(maininterface, (1200, 800))
         screen.blit(maininterface, (0, 0))
         pygame.display.update()
+

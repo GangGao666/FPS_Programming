@@ -41,6 +41,7 @@ def pre_prepare(scene):
 
 
 def game1(scene):
+    scene = scene - 7
     bg = pygame.image.load('./images/bg' + str(scene) + '.png').convert()
     game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss = pre_prepare(
         scene)
@@ -72,6 +73,7 @@ def game1(scene):
 
 
 def game2(scene):
+    scene = scene - 7
     bg = pygame.image.load('./images/bg' + str(scene) + '.png').convert()
     game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss = pre_prepare(
         scene)
@@ -104,6 +106,7 @@ def game2(scene):
 
 
 def game3(scene):
+    scene = scene - 7
     bg = pygame.image.load('./images/bg' + str(scene) + '.png').convert()
     game_setting, gift_sound, shot_sound, collision_sound, screen, hero, bullets, demons, gifts, boss = pre_prepare(
         scene)

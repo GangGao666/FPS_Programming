@@ -72,7 +72,7 @@ def update_gifts(game_setting, gifts, hero, gift_sound):
         if gift_type in [4, 5, 6]:
             hero.win = True
         # 加快怪物移动速度
-        game_setting.demon_speed = game_setting.demon_speed + 0.1
+        game_setting.demon_speed = game_setting.demon_speed + 0.05
         collisions = pygame.sprite.spritecollideany(hero, gifts)
         collisions.remove(gifts)
 
@@ -81,7 +81,6 @@ def update_gifts(game_setting, gifts, hero, gift_sound):
 
 
 def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision_sound, scene):
-    # todo 通过让Sprite的Group() 数组里的每个bullet对象调用update()方法，让子弹出现
     # 装好子弹后，直接将Sprite的Group数组对象调用update()方法，更新子弹位置
     bullets.update()
     # 删除超出屏幕的子弹
@@ -119,6 +118,7 @@ def update_bullets(game_setting, screen, hero, bullets, demons, gifts, collision
 
 
 def fire_bullet(game_setting, screen, hero, bullets):
+    # 判断是否小于子弹限制数量
     if len(bullets) < game_setting.bullet_allowed:
         new_bullet = Bullet(game_setting, screen, hero)
         new_bullet.direction = hero.direction
@@ -173,7 +173,7 @@ def update_screen(game_setting, screen, hero, bullets, demons, gifts):
     bullets.update()
     gifts.update()
     hero.update()
-    demons.draw(screen)
+    demons.update()
 
 
 '''检查键盘弹起事件'''

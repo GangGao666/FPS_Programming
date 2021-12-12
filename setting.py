@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 # @File : setting.py
 # @Description : 系统设置文件
+import pygame
+
+
 class Setting:
     def __init__(self):
         # 游戏屏幕宽度
@@ -37,4 +40,10 @@ class Setting:
         # 怪物初始移动图像列表
         self.demon_image = ["images/monster1_right.png","images/monster1_left.png"]
 
-
+    def check_btn(self,x1,x2,y1,y2,sound):
+        check = pygame.mouse.get_pressed()
+        x, y = pygame.mouse.get_pos()
+        if x1 <= x <= x2 and y1 <= y <= y2:
+            if check[0]:
+                sound.play()
+                return True

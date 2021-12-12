@@ -110,11 +110,6 @@ class Player():
             return True
         else:
             return False
-    # todo 位置写死了而且还不精确，到时候弄个碰撞条件
-    def checkSuccess(self):
-        if self.x>500 and self.y>150:
-
-            return True
 
     def attack(self):
         if self.att:
@@ -164,7 +159,6 @@ class Player():
                 monster_rect[3] = 55
                 if monster_rect.colliderect(player_rect) and not monster.checkDead():
                     self.life = -1
-                    print(monster_rect,player_rect)
 
 
 class Tp():
@@ -172,8 +166,9 @@ class Tp():
         self.x=1085
         self.y=465
         self.image=pygame.image.load('./images/tp.png')
-        self.imagesizex=1
-        self.imagesizey=1
+        self.imagesizex=60
+        self.imagesizey=125
+    #todo 进入下一关触及问题
     def checkxy(self):
         x1=self.x
         x2=self.x+self.imagesizex
