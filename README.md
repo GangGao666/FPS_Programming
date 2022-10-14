@@ -35,3 +35,6 @@ Files Announcement
 	 Pictures are allowed to be downloaded.
 
 	 All the remaining pictures are made by PowerPoint and Photoshop 2020.
+	 
+	 
+![](images/gamescreenshot.jpg)
